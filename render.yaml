@@ -1,0 +1,26 @@
+# Paid single-instance blueprint with persistent SQLite storage.
+# Creating this service incurs Render compute and disk charges.
+# No deployment or billing is initiated by committing this file.
+services:
+  - type: web
+    name: healthpulse-ai
+    runtime: docker
+    plan: starter
+    region: singapore
+    branch: main
+    dockerfilePath: ./Dockerfile.deploy
+    autoDeployTrigger: checksPass
+    healthCheckPath: /api/health
+    envVars:
+      - key: HEALTHPULSE_DB
+        value: /app/data/healthpulse.db
+      - key: HEALTHPULSE_SERVE_UI
+        value: "1"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      # ADMIN_API_KEY intentionally omitted. The public service defaults to
+      # read-only demo data; WHO ingestion requires manual administrator setup.
+    disk:
+      name: healthpulse-sqlite
+      mountPath: /app/data
+      sizeGB: 1

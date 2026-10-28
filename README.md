@@ -66,6 +66,18 @@ Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg)
 
 [Explore the browser demo](https://harshakavali81-collab.github.io/harshavardhan-portfolio/healthpulse-demo.html) — works without a backend, with fabricated values and indicator/country/year filters. **This separate static showcase is not a deployment of FastAPI, does not access WHO, and is not the application’s actual seeded database.** Run Docker Compose for the full platform.
 
+## Deploy the full FastAPI + React application
+
+A **single-origin deployment image** is provided as `Dockerfile.deploy` and a Render Blueprint as `render.yaml`. The Blueprint explicitly specifies a **paid Starter instance and persistent disk** to keep SQLite data across deploys. It is **not deployed merely by committing**; Render account connection and your billing authorization are required. See [full deployment and smoke-test guide](docs/DEPLOY_RENDER.md), [WHO source evidence](docs/WHO_SOURCE_EVIDENCE.md), and [independent public-health validation gate](docs/VALIDATION_PLAN.md).
+
+```bash
+docker build -f Dockerfile.deploy -t healthpulse-all-in-one .
+docker run --rm -p 8000:8000 healthpulse-all-in-one
+# Same origin: http://localhost:8000/ (React) and /api/health (FastAPI)
+```
+
+The old two-container Docker Compose workflow is retained for local development.
+
 ## Quick start with Docker
 
 ```bash

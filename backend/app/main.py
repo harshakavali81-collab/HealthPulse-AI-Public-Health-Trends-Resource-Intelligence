@@ -1,9 +1,11 @@
 """FastAPI read-only analytics plus authorized optional WHO data sync."""
 from contextlib import asynccontextmanager
+from pathlib import Path
 import os
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query, Header
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from healthpulse.processing.clean import INDICATORS
 from healthpulse.analytics.descriptive import summarize
 from healthpulse.analytics.regional_comparison import compare_regions
@@ -135,3 +137,12 @@ def sync_who(indicator: str, x_admin_key: str | None = Header(default=None)):
         return {**inserted, "rejected_from_source": result["rejected_count"], "source": "WHO"}
     except Exception as exc:
         raise HTTPException(502, "WHO GHO API could not be queried; check network and source availability") from exc
+
+# Optional single-container deployment. When a prebuilt React bundle is present,
+# serve UI and API from the same origin; no CORS credentials are required.
+# The development API and existing two-container Compose setup remain unchanged.
+if os.getenv("HEALTHPULSE_SERVE_UI", "0") == "1":
+    dashboard_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+    if not (dashboard_dist / "index.html").is_file():
+        raise RuntimeError("HEALTHPULSE_SERVE_UI=1 but built frontend/index.html is missing")
+    app.mount("/", StaticFiles(directory=dashboard_dist, html=True), name="healthpulse-dashboard")
