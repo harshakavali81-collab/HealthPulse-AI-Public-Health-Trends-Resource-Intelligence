@@ -46,4 +46,8 @@ Exact volume-mount commands differ by Docker platform; this guide deliberately a
 - Before WHO imports, verify indicator code, WHO terms of use, units, dimensions, geographies and years.
 - Check source counts, country-year gaps, provenance and quality monitoring before presenting numbers.
 - Run GitHub CI and smoke tests after every change.
-- Public-facing GitHub Pages demos must use **synthetic** examples only; a public backend needs independent hosting.
+- The public GitHub Pages real-data explorer uses a separately hosted, source-labeled historical World Bank WDI aggregate snapshot; the synthetic demonstration is labeled separately. Neither is the cloud-hosted FastAPI service.
+
+## Managing the published World Bank snapshot
+
+Bundled World Bank records are verified against their SHA-256 manifest at startup when `HEALTHPULSE_AUTOLOAD_WDI=1`. The data remains historical, not a live feed. Do not call per-indicator admin sync against a managed snapshot: the API deliberately returns HTTP 409 to prevent unreviewed overrides and misleading provenance. To update the published record set, use the dedicated source-audited GitHub snapshot publishing workflow and release the resulting complete dataset together with its manifest, then review the new counts and data definitions before deployment.

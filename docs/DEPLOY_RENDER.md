@@ -42,3 +42,7 @@ Live WHO data cannot be automatically declared validated solely because the endp
 ## Additional checks before public use
 
 Turn on deployment alerts, uptime monitoring, rate limits at the trusted proxy or host, run a dependency/secret scan, configure a domain and HTTPS, and establish backup ownership and recovery tests. Security controls require independent review. Data/forecast models are **not validated for clinical, policy or resource-allocation decisions**.
+
+## Safety checks added after deployment-image testing
+
+The single-container API now registers all admin routes **before** its React static-file mount. The Docker smoke test checks that missing-credential admin writes return 503 (not 405/404), verifies 1,026 published World Bank observations and 234 life-expectancy rows, and checks HTTP security headers. A reviewable snapshot blocks ad-hoc per-indicator World Bank sync (HTTP 409 when authorized) to protect source integrity. These tests verify configuration only; they do not prove a public paid Render service has been created, nor substitute for actual HTTPS checks against a real service URL.

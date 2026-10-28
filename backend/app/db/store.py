@@ -35,7 +35,8 @@ def connect():
 
 def insert_records(rows):
     clean, errors = validate_records(rows)
-    if not clean:
+    # Never persist the valid subset of an incomplete/invalid import.
+    if errors or not clean:
         return {"accepted": 0, "rejected": len(errors), "errors": errors[:5]}
     cols = ", ".join(FIELDS)
     qs = ", ".join(["?"] * len(FIELDS))

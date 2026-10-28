@@ -16,7 +16,7 @@
 
 ## Overview
 
-An analytics and visualization application for longitudinal aggregate public health indicators. Uses fabricated records for a reproducible demo; verified WHO GHO aggregates can be imported with an explicitly authorized request and are kept separate from synthetic records.
+An analytics and visualization application for longitudinal aggregate public health indicators. Includes an audited historical World Bank WDI country-level dataset and a separately labeled reproducible synthetic demo; WHO GHO import remains optional and has not been independently verified live.
 
 ![Example trend chart](assets/trend-example.png)
 
@@ -76,7 +76,7 @@ Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg)
 - [Read-only live API probe (passed)](https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/actions/runs/40648073095)
 - [Browser and mobile export test (passed)](https://github.com/harshakavali81-collab/harshavardhan-portfolio/actions/runs/40648952963)
 
-**Scope:** Requested years 2012–2024. Actual country and year coverage varies by indicator; do not infer unreported values. Hospital-bed data covers 16 of the 18 selected countries in this version. The static public WDI explorer consumes a verified JSON copy in the portfolio website; the local React/FastAPI app still requires an explicitly authorized import before its WorldBank selector is populated.
+**Scope:** Requested years 2012–2024. Actual country and year coverage varies by indicator; do not infer unreported values. Hospital-bed data covers 16 of the 18 selected countries in this version. The public WDI explorer reads a verified JSON copy, while the Docker React/FastAPI application automatically loads that same pinned snapshot from its image and selects it by default.
 
 ## World Bank WDI public-data pathway (new)
 
@@ -88,7 +88,7 @@ PYTHONPATH=src:. python -m scripts.worldbank_probe --indicator life_expectancy -
 curl -X POST http://127.0.0.1:8000/api/admin/sync-worldbank/life_expectancy -H 'X-Admin-Key: PRIVATE_SECRET'
 ```
 
-See [WDI sourcing, attribution and validation](docs/WORLDBANK_SOURCE.md) and [data dictionary](docs/DATA_DICTIONARY.md). The UI offers the optional source in the selector. The data is not in the demo until imported successfully.
+See [WDI sourcing, attribution and validation](docs/WORLDBANK_SOURCE.md) and [data dictionary](docs/DATA_DICTIONARY.md). The UI offers the optional source in the selector. The default Docker deployment already loads the pinned historical snapshot automatically; the optional administrator import applies only to unmanaged sources and is blocked for pinned datasets.
 
 ## Live WHO connectivity status — 28 October 2026
 
@@ -220,3 +220,7 @@ This prototype deliberately separates WHO and synthetic records and makes no pat
 **Kavali Harshavardhan** — AI/ML and Data Analytics portfolio project · [GitHub profile](https://github.com/harshakavali81-collab)
 
 *UI is an original dashboard implementation, drawing only general inspiration from modern healthcare analytics design patterns.*
+
+## Deployment safety regression checks
+
+The single-container server mounts React after its registered API routes so `/api/admin/...` remains protected and accessible for its intended disabled response. The World Bank snapshot is pinned to a SHA-256 manifest, and per-indicator WDI admin refresh returns **409 Conflict** when the pinned dataset is managed; this prevents silent source replacement. Invalid write batches are rejected atomically. Docker CI probes frontend + backend, WDI counts and unauthorized admin endpoints, and checks baseline HTTP response headers. This is deployment **verification**, not confirmation of a paid cloud deployment or clinical/policy validation.

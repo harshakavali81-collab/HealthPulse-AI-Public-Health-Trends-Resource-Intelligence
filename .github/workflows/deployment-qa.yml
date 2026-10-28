@@ -40,6 +40,10 @@ jobs:
           grep -q '"total":234' /tmp/healthpulse-wdi.json
           status=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:18000/api/admin/sync-who/life_expectancy)
           test "$status" = 503
+          wdi_status=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:18000/api/admin/sync-worldbank/life_expectancy)
+          test "$wdi_status" = 503
+          curl -fsSI http://127.0.0.1:18000/api/health | grep -iq 'x-content-type-options: nosniff'
+          grep -q '"total":234' /tmp/healthpulse-wdi.json
       - name: Container logs (on failure)
         if: failure()
         run: docker logs healthpulse-ci || true

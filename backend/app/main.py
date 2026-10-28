@@ -22,10 +22,26 @@ async def lifespan(app):
     initialize()
     yield
 
-app = FastAPI(title="HealthPulse AI", version="1.0.0", description="Aggregate population-health exploration. Synthetic data by default; not clinical advice.", lifespan=lifespan)
+app = FastAPI(title="HealthPulse AI", version="1.0.0", description="Aggregate population-health exploration. Separate World Bank WDI historical data and synthetic demonstration; not clinical advice.", lifespan=lifespan)
 # CORS is unnecessary for Docker nginx proxy or Vite development proxy.
 # Explicitly no allow_origins=['*'] for credentialed writes.
 app.add_middleware(CORSMiddleware, allow_origins=[], allow_methods=["GET"], allow_headers=[])
+
+@app.middleware("http")
+async def security_response_headers(request, call_next):
+    """Baseline browser protections for the public dashboard and JSON API.
+
+    Do not set a blanket CSP: FastAPI /docs intentionally loads external Swagger
+    resources and its policy differs from the prebuilt React dashboard.
+    """
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    response.headers.setdefault("Cache-Control", "no-store" if request.url.path.startswith("/api/") else "public, max-age=300")
+    return response
+
 
 def read(indicator=None, country=None, source="synthetic", start_year=None, end_year=None):
     if source not in ("synthetic", "WHO", "WorldBank"):
@@ -143,14 +159,6 @@ def sync_who(indicator: str, x_admin_key: str | None = Header(default=None)):
     except Exception as exc:
         raise HTTPException(502, "WHO GHO API could not be queried; check network and source availability") from exc
 
-# Optional single-container deployment. When a prebuilt React bundle is present,
-# serve UI and API from the same origin; no CORS credentials are required.
-# The development API and existing two-container Compose setup remain unchanged.
-if os.getenv("HEALTHPULSE_SERVE_UI", "0") == "1":
-    dashboard_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
-    if not (dashboard_dist / "index.html").is_file():
-        raise RuntimeError("HEALTHPULSE_SERVE_UI=1 but built frontend/index.html is missing")
-    app.mount("/", StaticFiles(directory=dashboard_dist, html=True), name="healthpulse-dashboard")
 
 @app.post("/api/admin/sync-worldbank/{indicator}")
 def sync_worldbank(indicator: str, x_admin_key: str | None = Header(default=None)):
@@ -163,6 +171,15 @@ def sync_worldbank(indicator: str, x_admin_key: str | None = Header(default=None
         raise HTTPException(403, "Invalid admin key")
     if indicator not in WB_CODES:
         raise HTTPException(422, "Unsupported World Bank indicator")
+    # The packaged WDI dataset is checksum-pinned and managed as a unit.
+    # Single-indicator network sync would invalidate its audit manifest, and a
+    # subsequent startup would silently restore the old snapshot.
+    managed = next(x for x in source_status()["sources"] if x["source"] == "WorldBank")
+    if managed.get("published_snapshot_sha256"):
+        raise HTTPException(
+            409, "A verified World Bank snapshot is installed. Refresh the full "
+                 "source-audited snapshot using the CI workflow; partial sync is disabled."
+        )
     try:
         batch = fetch_worldbank_indicator(indicator)
         if not batch["complete"]:
@@ -178,3 +195,12 @@ def sync_worldbank(indicator: str, x_admin_key: str | None = Header(default=None
                 "note": "World Bank WDI series; not direct WHO GHO data. Verify indicator methodology."}
     except Exception as exc:
         raise HTTPException(502, "World Bank API unavailable or source validation failed; no partial batch inserted") from exc
+
+# Optional single-container deployment. When a prebuilt React bundle is present,
+# serve UI and API from the same origin; no CORS credentials are required.
+# The development API and existing two-container Compose setup remain unchanged.
+if os.getenv("HEALTHPULSE_SERVE_UI", "0") == "1":
+    dashboard_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+    if not (dashboard_dist / "index.html").is_file():
+        raise RuntimeError("HEALTHPULSE_SERVE_UI=1 but built frontend/index.html is missing")
+    app.mount("/", StaticFiles(directory=dashboard_dist, html=True), name="healthpulse-dashboard")
