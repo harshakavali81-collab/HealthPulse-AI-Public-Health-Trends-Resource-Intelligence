@@ -1,0 +1,47 @@
+{
+  "source": "WorldBank",
+  "publisher": "World Bank World Development Indicators (WDI)",
+  "source_fetched_at_utc": "2026-10-28T07:10:08.933854+00:00",
+  "rows": 1026,
+  "countries": 18,
+  "indicators": [
+    {
+      "indicator": "life_expectancy",
+      "worldbank_code": "SP.DYN.LE00.IN",
+      "rows": 234,
+      "countries_with_data": 18,
+      "fetched_at_utc": "2026-10-28T07:10:07.614555+00:00"
+    },
+    {
+      "indicator": "immunization",
+      "worldbank_code": "SH.IMM.IDPT",
+      "rows": 234,
+      "countries_with_data": 18,
+      "fetched_at_utc": "2026-10-28T07:10:07.935781+00:00"
+    },
+    {
+      "indicator": "physicians",
+      "worldbank_code": "SH.MED.PHYS.ZS",
+      "rows": 162,
+      "countries_with_data": 18,
+      "fetched_at_utc": "2026-10-28T07:10:08.240298+00:00"
+    },
+    {
+      "indicator": "hospital_beds",
+      "worldbank_code": "SH.MED.BEDS.ZS",
+      "rows": 162,
+      "countries_with_data": 16,
+      "fetched_at_utc": "2026-10-28T07:10:08.581795+00:00"
+    },
+    {
+      "indicator": "under5_mortality",
+      "worldbank_code": "SH.DYN.MORT",
+      "rows": 234,
+      "countries_with_data": 18,
+      "fetched_at_utc": "2026-10-28T07:10:08.933236+00:00"
+    }
+  ],
+  "snapshot_sha256": "3cc1ac60093f54509bce753861c03c4fccc166b15f25f56f4a5bda238fb532de",
+  "license": "CC BY 4.0 - World Bank WDI, original underlying providers credited by indicator metadata",
+  "methodological_status": "not clinically or policy validated"
+}
