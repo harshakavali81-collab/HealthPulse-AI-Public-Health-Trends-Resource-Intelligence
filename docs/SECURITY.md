@@ -7,3 +7,7 @@
 - No external WHO API call occurs during demo startup or test execution.
 - Do not trust indicator comparability across years or countries without source documentation and data quality audits.
 - Do not reuse synthetic visualizations in external reports without prominent DEMO labeling.
+
+## Database maintenance
+
+See [backup and recovery instructions](OPERATIONS.md). The backup tool uses SQLite online backup, validates source and destination, refuses overwrite and never commits database files. Do not expose ADMIN_API_KEY to public users or a static frontend.

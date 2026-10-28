@@ -113,6 +113,19 @@ curl 'http://localhost:8000/api/quality'
 curl 'http://localhost:8000/api/resources'
 ```
 
+## Data quality and operations
+
+The dashboard includes interactive **Data provenance**, **Quality monitoring** (country-year gaps) and **Resource context** views. Their corresponding API endpoints are documented in `/docs`.
+
+SQLite integrity and consistent backups:
+
+```bash
+python scripts/db_maintenance.py verify
+python scripts/db_maintenance.py backup --output backups/healthpulse-YYYYMMDD.sqlite
+```
+
+See [backup and recovery guide](docs/OPERATIONS.md).
+
 ## Testing
 
 ```bash

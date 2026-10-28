@@ -9,3 +9,9 @@ dist/
 coverage/
 *.log
 .DS_Store
+
+# Local database backups and exports
+backups/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
