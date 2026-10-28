@@ -23,3 +23,18 @@ PYTHONPATH=src:. python -m scripts.who_probe --indicator life_expectancy --count
 ```
 
 Store probe date, exact indicator code, country list, retrieval limits and reviewer notes for a reproducible evidence trail. WHO site metadata may change.
+
+## Observed upstream/API connectivity incident — 2026-10-28 06:57 UTC
+
+The repository's read-only GitHub Actions probe at [diagnostic run 40647026669](https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/actions/runs/40647026669) received these response codes from a GitHub-hosted runner:
+
+| WHO route | HTTP status |
+|---|---|
+| /api/Indicator?$top=1 | **500** |
+| /api/WHOSIS_000001?$top=1 | **500** |
+| /api/WHOSIS_000001?$top=1&$filter=SpatialDim eq 'IND' | **500** |
+| /api/DIMENSION/COUNTRY/DimensionValues?$top=1 | **500** |
+
+The initial bounded importer probe also received HTTP 500. No WHO records were imported or stored. The diagnostic workflow displays a green job because it treats its live probe as **informational**; the actual probe step failed and the step summary records that outcome. Do not interpret the workflow's overall green status as source verification.
+
+**Release decision:** Continue synthetic demo operation; defer genuine WHO import and independent comparisons until the upstream source is reachable, dimensional metadata is reviewed, and a full validated ingest completes. An independent live retry can be initiated using GitHub Actions → WHO live connectivity probe, or from a trusted terminal. This is evidence of errors from one runner at one time, not a claim of a global outage.

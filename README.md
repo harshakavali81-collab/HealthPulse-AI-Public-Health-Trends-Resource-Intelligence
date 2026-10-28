@@ -66,6 +66,14 @@ Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg)
 
 [Explore the browser demo](https://harshakavali81-collab.github.io/harshavardhan-portfolio/healthpulse-demo.html) — works without a backend, with fabricated values and indicator/country/year filters. **This separate static showcase is not a deployment of FastAPI, does not access WHO, and is not the application’s actual seeded database.** Run Docker Compose for the full platform.
 
+## Live WHO connectivity status — 28 October 2026
+
+**WHO imports remain blocked pending upstream accessibility and source validation.** A read-only GitHub Actions probe queried four documented OData paths from a GitHub-hosted runner. All four returned **HTTP 500**, including unfiltered life expectancy and the indicator catalogue. This observation only applies to that runner at the stated time; it is not proof of a global WHO outage.
+
+[Inspect the WHO diagnostic job](https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/actions/runs/40647026669).
+
+The workflow itself is marked completed/successful because its probe step is informational and allowed to fail. **The probe step's outcome was failure.** Therefore the project must not show a 'WHO verified' or 'Live WHO data' success badge. The React/FastAPI container and synthetic demo remain operational independently of WHO.
+
 ## Deploy the full FastAPI + React application
 
 A **single-origin deployment image** is provided as `Dockerfile.deploy` and a Render Blueprint as `render.yaml`. The Blueprint explicitly specifies a **paid Starter instance and persistent disk** to keep SQLite data across deploys. It is **not deployed merely by committing**; Render account connection and your billing authorization are required. See [full deployment and smoke-test guide](docs/DEPLOY_RENDER.md), [WHO source evidence](docs/WHO_SOURCE_EVIDENCE.md), and [independent public-health validation gate](docs/VALIDATION_PLAN.md).
