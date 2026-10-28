@@ -78,7 +78,21 @@ def import_verified_snapshot(db, snapshot=None, manifest=None):
     batch = verify_snapshot(snapshot, manifest)
     row = db.execute("SELECT sha256 FROM source_snapshots WHERE source='WorldBank'").fetchone()
     if row is not None and row[0] == batch["sha256"]:
-        return {"action": "unchanged", "rows": batch["rows"]}
+        # A matching *metadata hash* does not prove the SQLite observations are
+        # unmodified. Verify every pinned value and provenance field before
+        # reporting success, and repair corruption from the audited snapshot.
+        cols = ("indicator", "country", "country_name", "region", "year",
+                "value", "unit", "source", "source_url", "note")
+        stored = db.execute(
+            f"SELECT {','.join(cols)} FROM observations "
+            "WHERE source='WorldBank' ORDER BY indicator,country,year"
+        ).fetchall()
+        expected = sorted(batch["records"], key=lambda r: (r["indicator"], r["country"], r["year"]))
+        if (len(stored) == len(expected) and all(
+            tuple(got[column] for column in cols) == tuple(exp[column] for column in cols)
+            for got, exp in zip(stored, expected)
+        )):
+            return {"action": "unchanged", "rows": batch["rows"]}
     if row is None:
         original = db.execute("SELECT COUNT(*) FROM observations WHERE source='WorldBank'").fetchone()[0]
         if original:

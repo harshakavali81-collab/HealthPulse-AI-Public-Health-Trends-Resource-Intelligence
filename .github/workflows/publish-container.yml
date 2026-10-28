@@ -18,7 +18,26 @@ concurrency:
   group: healthpulse-container-publish
   cancel-in-progress: false
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Verify Python API, managed data and provenance
+        run: PYTHONPATH=src:. python -m pytest -q
+      - name: Verify published data checksums
+        run: PYTHONPATH=src:. python -c "from healthpulse.ingestion.published_snapshot import verify_snapshot; assert verify_snapshot()['rows'] == 1026"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify React bundle
+        run: cd frontend && npm install --no-audit --no-fund && npm run build
   publish:
+    needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

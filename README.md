@@ -110,6 +110,10 @@ docker run --rm -p 8000:8000 healthpulse-all-in-one
 
 The old two-container Docker Compose workflow is retained for local development.
 
+## Release safety gates
+
+The [data and release gate checklist](docs/DATA_RELEASE_GATES.md) documents row-by-row SQLite reconciliation, strict WHO import rejection and CI-gated Docker image publication.
+
 ## Verified release evidence
 
 [Read the independently checkable release matrix](docs/RELEASE_STATUS.md) — Python tests, frontend, Docker smoke, real-source dataset, container publishing, and explicit cloud/WHO/clinical limitations.

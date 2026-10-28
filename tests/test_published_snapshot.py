@@ -61,3 +61,23 @@ def test_source_status_reports_observation_provenance(client):
     assert {r["source"] for r in data}=={"synthetic","WHO","WorldBank"}
     assert next(r for r in data if r["source"]=="synthetic")["observations"]==1170
     assert next(r for r in data if r["source"]=="WHO")["available"] is False
+
+
+def test_autoload_repairs_tampered_managed_sqlite(monkeypatch,tmp_path):
+    monkeypatch.setenv("HEALTHPULSE_DB",str(tmp_path/"repair.sqlite"))
+    monkeypatch.setenv("HEALTHPULSE_AUTOLOAD_WDI","1")
+    initialize()
+    with connect() as db:
+        db.execute("""UPDATE observations SET value=0 WHERE source='WorldBank'
+                      AND country='IND' AND indicator='life_expectancy' AND year=2022""")
+        db.execute("""DELETE FROM observations WHERE source='WorldBank'
+                      AND country='USA' AND indicator='life_expectancy' AND year=2022""")
+    result=initialize()
+    assert result["wdi"]["action"]=="imported"
+    assert len(query(source="WorldBank"))==1026
+    batch=verify_snapshot()
+    expected=next(x["value"] for x in batch["records"]
+                  if x["country"]=="IND" and x["indicator"]=="life_expectancy" and x["year"]==2022)
+    actual=query("life_expectancy","IND","WorldBank",2022,2022)
+    assert len(actual)==1 and actual[0]["value"]==expected
+    assert initialize()["wdi"]["action"]=="unchanged"

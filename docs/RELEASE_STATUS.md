@@ -52,3 +52,7 @@ The Docker application validates the source checksum before startup data seeding
 ## Portfolio usage
 
 Suitable for discussing Python, SQL, FastAPI, data ingestion, analytics, React, GitHub Actions, data validation, source provenance, and deployment automation in interviews. Do not claim measured clinical benefit, production uptime, verified disease forecasts or official WHO endorsement.
+
+## Added release protection
+
+See [data and image release gates](DATA_RELEASE_GATES.md). Published Docker images are now built only after the same workflow passes Python tests, source SHA-256 checks and the React frontend build. The SQLite snapshot's stored values are reconciled row-by-row against the pinned data before it is called unchanged. WHO data validation failures reject the whole candidate import. Real hosting and clinical approval remain separate approvals.

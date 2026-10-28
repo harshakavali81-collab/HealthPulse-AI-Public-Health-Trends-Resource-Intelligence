@@ -106,6 +106,10 @@ def fetch_who_indicator(indicator: str, max_pages: int = 10, client=None, countr
             if last_link:
                 raise ValueError("WHO data not fully retrieved: page limit reached")
         clean, errors = validate_records(raw)
+        # A malformed total-population measurement must block import, rather
+        # than be silently dropped while still reporting a complete batch.
+        if errors:
+            raise ValueError(f"WHO returned {len(errors)} invalid aggregate observations")
         unique = {}
         for row in clean:
             key = (row["indicator"], row["country"], row["year"], row["source"])

@@ -21,11 +21,11 @@ class DummyClient:
 def test_total_only_and_country_code():
     client=DummyClient([{"value":[ROW,
         {**ROW,"Dim1":"MLE","NumericValue":71.1},
-        {**ROW,"SpatialDim":"XX","NumericValue":70}]}])
+        {**ROW,"Dim2":"MLE","NumericValue":70}]}])
     result=fetch_who_indicator("life_expectancy",client=client)
     assert len(result["records"])==1
     assert result["records"][0]["value"]==69.8
-    assert result["rejected_count"]==1
+    assert result["rejected_count"]==0
     assert result["complete"] is True
     assert result["pages_fetched"]==1
 
@@ -72,3 +72,16 @@ def test_invalid_country_filter():
 def test_invalid_shape():
     with pytest.raises(ValueError,match="structure"):
         fetch_who_indicator("life_expectancy",client=DummyClient([{"items":[]}]))
+
+
+def test_invalid_total_population_observation_fails_whole_who_batch():
+    client=DummyClient([{"value":[ROW,{**ROW,"SpatialDim":"XX","NumericValue":70}]}])
+    with pytest.raises(ValueError,match="invalid aggregate observations"):
+        fetch_who_indicator("life_expectancy",client=client)
+
+
+def test_total_and_non_total_records_are_never_mixed():
+    client=DummyClient([{"value":[ROW,{**ROW,"Dim1":"FMLE","NumericValue":100}]}])
+    data=fetch_who_indicator("life_expectancy",client=client)
+    assert data["records"][0]["value"]==ROW["NumericValue"]
+    assert len(data["records"])==1
