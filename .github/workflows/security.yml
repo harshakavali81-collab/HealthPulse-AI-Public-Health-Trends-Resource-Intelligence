@@ -1,0 +1,9 @@
+name: Security Basics
+on: [push, pull_request]
+jobs:
+  secrets-and-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate no tracked environment file
+        run: '! git ls-files | grep -Eq "(^|/)\\.env$|(^|/)healthpulse\\.db$"'

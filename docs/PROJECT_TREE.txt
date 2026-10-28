@@ -1,0 +1,31 @@
+HealthPulse-AI (version 1.0)
+|-- README.md
+|-- .env.example / .gitignore / docker-compose.yml / Dockerfile
+|-- requirements.txt
+|-- data/
+|   |-- raw/ interim/ processed/ synthetic/
+|-- notebooks/
+|   |-- 01_indicator_exploration.ipynb
+|   |-- 02_region_comparison.ipynb
+|   `-- 03_trend_forecasting.ipynb
+|-- src/healthpulse/
+|   |-- ingestion/{who_loader.py,public_dataset_loader.py}
+|   |-- processing/{clean.py,aggregate.py,validate.py}
+|   |-- analytics/{descriptive.py,regional_comparison.py}
+|   |-- models/{forecast.py,cluster_regions.py,detect_anomalies.py}
+|   `-- monitoring/quality.py
+|-- backend/app/
+|   |-- main.py
+|   |-- db/store.py
+|   `-- routes/
+|-- frontend/
+|   |-- src/main.jsx, styles.css, api/client.js
+|   |-- src/components/Charts.jsx
+|   |-- src/pages/{Overview.jsx,Indicators.jsx,RegionalComparison.jsx,Trends.jsx}
+|   `-- Dockerfile / nginx.conf / vite.config.js / package.json
+|-- assets/{dashboard-preview.png,trend-example.png,coverage-example.png}
+|-- portfolio/healthpulse-case-study.html
+|-- powerbi/README.md
+|-- docs/{ARCHITECTURE.md,DATA_DICTIONARY.md,MODEL_CARD.md,SECURITY.md,PORTFOLIO_CASE_STUDY.md}
+|-- tests/{test_processing.py,test_analytics.py,test_api.py,test_who_loader.py}
+`-- .github/workflows/ci.yml

@@ -35,6 +35,22 @@ An analytics and visualization application for longitudinal aggregate public hea
 | Deployment | Docker Compose API + Nginx React app, named SQLite volume |
 | Testing | API and algorithm tests, frontend build CI |
 
+## Visual atlas · 10 original project figures
+
+The dashboard and data charts below are **synthetic demonstrations**. The seven SVG diagrams illustrate real code structure and workflows; none represent measured public-health outcomes.
+
+| Dashboard | Trend example |
+|---|---|
+| ![Dashboard preview, synthetic data](assets/dashboard-preview.png) | ![Illustrative synthetic annual trend](assets/trend-example.png) |
+
+![Synthetic coverage example](assets/coverage-example.png)
+
+![System architecture](assets/diagrams/01-system-architecture.svg)
+![Data ingestion pipeline](assets/diagrams/02-ingestion-pipeline.svg)
+![End-to-end project workflow](assets/diagrams/03-project-workflow.svg)
+
+Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg) · [forecast evaluation](assets/diagrams/05-forecast-evaluation.svg) · [API lifecycle](assets/diagrams/06-api-data-lifecycle.svg) · [repository tree](assets/diagrams/07-project-tree.svg). All ten are indexed in [the visual gallery](docs/VISUAL_GALLERY.md).
+
 ## Screenshots and diagrams
 
 ![Data coverage example](assets/coverage-example.png)

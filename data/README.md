@@ -1,0 +1,1 @@
+The `raw`, `interim`, `processed`, and `synthetic` directories are organizational placeholders. Demo records are generated deterministically in memory and written to local SQLite on startup. Live WHO data is not bundled. Do not add private health records to this project.

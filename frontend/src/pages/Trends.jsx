@@ -1,0 +1,17 @@
+import React,{useEffect,useState} from 'react';
+import {AlertCircle, ArrowUpRight, CheckCircle2, GitBranch, LineChart, TrendingUp} from 'lucide-react';
+import {api} from '../api/client.js';
+import {TrendChart} from '../components/Charts.jsx';
+export default function Trends({indicator,source,country,records,metadata}){
+  const [forecast,setForecast]=useState(null),[flags,setFlags]=useState([]);
+  useEffect(()=>{let live=true;setForecast(null);setFlags([]);
+    Promise.all([api('/forecast',{indicator,source,country,horizon:3}),api('/anomalies',{indicator,source,country})])
+      .then(([a,b])=>{if(live){setForecast(a);setFlags(b.flags||[])}}).catch(()=>{if(live){setForecast(null);setFlags([])}});
+    return()=>{live=false}
+  },[indicator,source,country]);
+  const data=records.filter(r=>r.country===country).map(r=>({year:r.year,value:r.value}));
+  const ok=forecast?.status==='ok';
+  return <><div className="forecast-metrics"><div className="forecast-tile"><span>Forecasting model</span><strong>{ok?'Ridge trend':'Not available'}</strong><small>Illustrative annual trend</small></div><div className="forecast-tile"><span>Holdout MAE</span><strong>{ok?forecast.holdout_mae:'—'}</strong><small>{metadata.unit}</small></div><div className="forecast-tile"><span>Naive baseline MAE</span><strong>{ok?forecast.baseline_mae:'—'}</strong><small>Prior-value prediction</small></div><div className="forecast-tile"><span>Validation period</span><strong>{ok?`${forecast.validation_points} years`:'—'}</strong><small>Chronological holdout</small></div></div>
+  <div className="dash-grid"><section className="panel wide"><div className="panel-header"><div><h2>Forecast & historical pattern</h2><p>{country} · {metadata.name} · {metadata.unit}</p></div><span className="legend"><i style={{background:'#e6a65f'}}/> Dashed: forecast</span></div>{data.length?<TrendChart data={data} forecast={forecast?.forecast||[]}/>:<div className="empty-state">No data available for selected country/source.</div>}<div className="panel-bottom"><span>Projection uncertainty is not quantified; no confidence interval is claimed.</span></div></section><section className="panel"><div className="panel-header"><div><h2>Change anomaly flags</h2><p>Robust year-over-year difference outliers</p></div></div><div className="flag-list">{flags.length?flags.map(f=><div key={f.year} className="flag-item"><span className="warning-icon"><AlertCircle size={16}/></span><div><strong>{f.year}</strong><p>Change of {f.delta > 0?'+':''}{f.delta} {metadata.unit}</p></div><span className="pill alert">Review</span></div>):<div className="no-flags"><CheckCircle2 size={28}/><strong>No change flags</strong><span>Not a guarantee of data quality or public health safety.</span></div>}</div></section></div>
+  <div className="panel section-gap method-panel"><div className="panel-header"><div><h2>Model card</h2><p>Interpretation and limitations</p></div></div><div className="method-cards"><div><b>Task</b><p>Illustrate how yearly aggregate indicators might evolve under a simple continuation of historical trends.</p></div><div><b>Validation</b><p>Chronological holdout; compare model MAE with a simple last-observed-value baseline.</p></div><div><b>Limitations</b><p>Trend changes, interventions, reporting revisions, small samples and country definitions are not modeled. Not an epidemiological forecasting tool.</p></div></div></div></>
+}
