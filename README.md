@@ -24,14 +24,14 @@ An analytics and visualization application for longitudinal aggregate public hea
 
 | Capability | Implementation |
 |---|---|
-| Intelligence dashboard | 4 KPI cards, interactive charts, country and data-source selectors |
+| Intelligence dashboard | 4 KPI cards, interactive charts, country and data-source selectors plus interactive provenance, quality and resource-context views |
 | Trend analysis | Annual country/region trends, unit-aware views |
 | Regional comparison | Unweighted means with country counts and methodology warnings |
 | Machine learning | Ridge time-trend projection with chronological MAE and naive baseline |
 | Anomaly detection | Robust MAD year-over-year change flags |
 | Exploratory clustering | Scaled KMeans over complete country indicator matrix |
 | Data validation | Canonical indicator ranges, ISO-style country codes, source separation |
-| Provenance | Source URLs, quality endpoint, ingestion time, CSV export |
+| Provenance | Interactive provenance and coverage pages, source URLs, quality endpoint, ingestion time, CSV export |
 | Deployment | Docker Compose API + Nginx React app, named SQLite volume |
 | Testing | API and algorithm tests, frontend build CI |
 

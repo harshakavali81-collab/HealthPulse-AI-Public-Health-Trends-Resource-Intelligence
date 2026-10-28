@@ -89,15 +89,35 @@ def quality(source: str = "synthetic"):
     rows = read(source=source)
     return {"source": source, **quality_report(rows)}
 
+@app.get("/api/coverage")
+def coverage(indicator: str = "life_expectancy", source: str = "synthetic"):
+    """Explain within-span annual gaps without inventing unreported data."""
+    if indicator not in INDICATORS:
+        raise HTTPException(422, "Unknown indicator")
+    rows = read(indicator, source=source)
+    by_country = {}
+    for row in rows:
+        group = by_country.setdefault(row["country"], {"country": row["country"], "country_name": row["country_name"], "years": set()})
+        group["years"].add(int(row["year"]))
+    result = []
+    for group in by_country.values():
+        years = sorted(group["years"])
+        result.append({"country": group["country"], "country_name": group["country_name"],
+                       "first_year": years[0], "last_year": years[-1], "observed_years": len(years),
+                       "missing_years_within_span": years[-1] - years[0] + 1 - len(years)})
+    return {"indicator": indicator, "source": source, "method": "missing years counted only between each country's earliest and latest observation",
+            "countries": sorted(result, key=lambda x: x["country_name"])}
+
 @app.get("/api/resources")
 def resource_gaps(source: str = "synthetic"):
     """Visual context only; density indicator is not an estimate of unmet medical need."""
     rows = read("hospital_beds", source=source)
     df = pd.DataFrame(rows)
-    if df.empty: return {"countries": [], "note": "No hospital bed density observations for this source."}
+    if df.empty: return {"source": source, "countries": [], "note": "No hospital bed density observations for this source."}
     latest = df.sort_values("year").drop_duplicates("country", keep="last").sort_values("value")
     result = latest[["country", "country_name", "value", "year"]].head(12).to_dict(orient="records")
-    return {"countries": result, "unit": "beds per 1,000", "note": "Synthetic resource-density illustration; low density does not prove a shortage. Do not make allocation decisions."}
+    return {"source": source, "countries": result, "unit": "beds per 1,000",
+            "note": ("Fabricated demo resource-density illustration" if source == "synthetic" else "WHO aggregate resource-density context") + "; low density does not prove a shortage. Do not make allocation decisions."}
 
 @app.post("/api/admin/sync-who/{indicator}")
 def sync_who(indicator: str, x_admin_key: str | None = Header(default=None)):

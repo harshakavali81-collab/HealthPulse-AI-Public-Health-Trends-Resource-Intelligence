@@ -5,10 +5,14 @@ import Overview from './pages/Overview.jsx';
 import Indicators from './pages/Indicators.jsx';
 import RegionalComparison from './pages/RegionalComparison.jsx';
 import Trends from './pages/Trends.jsx';
+import DataProvenance from './pages/DataProvenance.jsx';
+import QualityMonitoring from './pages/QualityMonitoring.jsx';
+import ResourceContext from './pages/ResourceContext.jsx';
 import { api } from './api/client.js';
 import './styles.css';
 
 const nav = [{title:'Overview',icon:LayoutDashboard},{title:'Indicators',icon:BarChart3},{title:'Regional comparison',icon:MapPinned},{title:'Trends & forecast',icon:TrendingUp}];
+const governance = [{title:'Data provenance',icon:Database},{title:'Quality monitoring',icon:ShieldCheck},{title:'Resource context',icon:HeartPulse}];
 const catalogue = [
   {id:'life_expectancy',name:'Life expectancy at birth',unit:'years'},
   {id:'immunization',name:'DTP3 immunization coverage',unit:'%'},
@@ -35,8 +39,8 @@ function App(){
   const countries=useMemo(()=>Array.from(new Map(allRecords.map(r=>[r.country,r.country_name])).entries()).sort((a,b)=>a[1].localeCompare(b[1])),[allRecords]);
   useEffect(()=>{if(countries.length && !countries.some(([code])=>code===country))setCountry(countries[0][0])},[countries,country]);
   function exportCSV(){
-    const columns=['country','country_name','region','year','indicator','value','unit','source'];
-    const lines=[columns.join(','),...allRecords.map(row=>columns.map(k=>`"${String(row[k]??'').replace(/"/g,'""')}"`).join(','))];
+    const columns=['country','country_name','region','year','indicator','value','unit','source','source_url','note','ingested_at'];
+    const lines=[columns.join(','),...allRecords.map(row=>columns.map(k=>{const raw=String(row[k]??'');const safe=/^[=+\-@\t\r]/.test(raw)?"'"+raw:raw;return `"${safe.replace(/"/g,'""')}"`}).join(','))];
     const blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'});
     const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`healthpulse-${indicator}-${source}.csv`;a.click();URL.revokeObjectURL(url);
   }
@@ -47,8 +51,7 @@ function App(){
       <div className="nav-label">WORKSPACE</div>
       <nav aria-label="Main navigation">{nav.map(({title,icon:Icon})=><button key={title} className={`nav-item ${page===title?'active':''}`} onClick={()=>{setPage(title);setMobileNav(false)}}><Icon size={18}/><span>{title}</span>{page===title&&<span className="active-dot"/>}</button>)}</nav>
       <div className="nav-label nav-label-extra">DATA & GOVERNANCE</div>
-      <div className="nav-static"><Database size={17}/> Data provenance</div>
-      <div className="nav-static"><ShieldCheck size={17}/> Quality monitoring</div>
+      <nav aria-label="Data and governance">{governance.map(({title,icon:Icon})=><button key={title} className={`nav-item ${page===title?'active':''}`} onClick={()=>{setPage(title);setMobileNav(false)}}><Icon size={18}/><span>{title}</span>{page===title&&<span className="active-dot"/>}</button>)}</nav>
       <div className="sidebar-bottom"><div className="tiny-signal"><span/> Demo environment</div><div className="sidebar-info"><strong>Built for transparency.</strong><p>Aggregate indicators only. No personal health records or individual predictions.</p></div><a href="https://www.who.int/data/gho/info/gho-odata-api" target="_blank" rel="noreferrer">Explore WHO GHO <ArrowUpRight size={14}/></a></div>
     </aside>
     {mobileNav&&<div className="nav-overlay" onClick={()=>setMobileNav(false)}/>}
@@ -63,6 +66,10 @@ function App(){
         {page==='Indicators'&&<Indicators {...shared}/>}
         {page==='Regional comparison'&&<RegionalComparison {...shared}/>}
         {page==='Trends & forecast'&&<Trends {...shared}/>}
+        {page==='Data provenance'&&<DataProvenance {...shared}/>}
+        {page==='Quality monitoring'&&<QualityMonitoring {...shared}/>}
+        {page==='Resource context'&&<ResourceContext {...shared}/>}
+
         <footer><span>© 2026 HealthPulse AI • A portfolio demonstration</span><span>Source transparency · Non-clinical use · Reproducible methods</span></footer>
       </main>
     </div>

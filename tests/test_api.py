@@ -57,3 +57,23 @@ def test_invalid_horizon(client):
 
 def test_empty_who(client):
     assert client.get('/api/records',params={'source':'WHO'}).json()['total']==0
+
+def test_coverage_source_and_internal_gaps(client):
+    d = client.get('/api/coverage', params={'indicator': 'life_expectancy', 'source': 'synthetic'}).json()
+    assert d['source'] == 'synthetic' and len(d['countries']) == 18
+    assert all(r['first_year'] == 2012 and r['last_year'] == 2024 and r['missing_years_within_span'] == 0 for r in d['countries'])
+
+def test_coverage_empty_who(client):
+    d = client.get('/api/coverage', params={'source': 'WHO'}).json()
+    assert d['countries'] == [] and d['source'] == 'WHO'
+
+def test_coverage_invalid_indicator(client):
+    assert client.get('/api/coverage', params={'indicator': 'not_a_real_indicator'}).status_code == 422
+
+def test_resources_do_not_label_who_data_synthetic(client):
+    d = client.get('/api/resources', params={'source': 'WHO'}).json()
+    assert d['countries'] == [] and d['source'] == 'WHO'
+    assert 'Synthetic' not in d['note']
+
+def test_source_filters_reject_unapproved_values_for_quality(client):
+    assert client.get('/api/quality', params={'source': 'user_upload'}).status_code == 422
