@@ -1,0 +1,43 @@
+name: Full-stack deployment image smoke test
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  docker-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build deployable React + FastAPI image
+        run: docker build -f Dockerfile.deploy -t healthpulse-deployment:ci .
+      - name: Start healthpulse container with blank admin key
+        run: docker run -d --name healthpulse-ci -p 127.0.0.1:18000:8000 -e ADMIN_API_KEY= healthpulse-deployment:ci
+      - name: Check React HTML, API health, and disabled external writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          healthy=0
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:18000/api/health > /tmp/healthpulse-health.json; then
+              healthy=1
+              break
+            fi
+            sleep 2
+          done
+          test "$healthy" -eq 1
+          grep -q '"status":"ok"' /tmp/healthpulse-health.json
+          curl -fsS http://127.0.0.1:18000/ > /tmp/healthpulse-ui.html
+          grep -qi 'healthpulse' /tmp/healthpulse-ui.html
+          curl -fsS 'http://127.0.0.1:18000/api/records?indicator=life_expectancy&source=synthetic&limit=1' > /tmp/healthpulse-data.json
+          grep -q '"source":"synthetic"' /tmp/healthpulse-data.json
+          status=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:18000/api/admin/sync-who/life_expectancy)
+          test "$status" = 503
+      - name: Container logs (on failure)
+        if: failure()
+        run: docker logs healthpulse-ci || true
+      - name: Stop container
+        if: always()
+        run: docker rm -f healthpulse-ci || true

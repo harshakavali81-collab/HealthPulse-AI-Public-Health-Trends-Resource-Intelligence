@@ -1,0 +1,35 @@
+name: Live WHO source connectivity audit (informational)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/who-audit-once.yml'
+permissions:
+  contents: read
+jobs:
+  bounded-who-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Read-only WHO life-expectancy probe for India
+        id: who
+        continue-on-error: true
+        run: PYTHONPATH=src:. python -m scripts.who_probe --indicator life_expectancy --country IND
+      - name: Record independent connectivity result
+        if: always()
+        shell: bash
+        env:
+          PROBE_OUTCOME: ${{ steps.who.outcome }}
+        run: |
+          {
+            echo "## WHO GHO connectivity audit"
+            echo "Result: **${PROBE_OUTCOME}**"
+            echo "Indicator: WHOSIS_000001; country: IND; read-only."
+            echo "Failure may mean network/source incompatibility; neither success nor failure establishes clinical or policy validity."
+            echo "No actual WHO records were committed or imported into the app by this workflow."
+          } >> "$GITHUB_STEP_SUMMARY"
