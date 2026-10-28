@@ -66,6 +66,18 @@ Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg)
 
 [Explore the browser demo](https://harshakavali81-collab.github.io/harshavardhan-portfolio/healthpulse-demo.html) — works without a backend, with fabricated values and indicator/country/year filters. **This separate static showcase is not a deployment of FastAPI, does not access WHO, and is not the application’s actual seeded database.** Run Docker Compose for the full platform.
 
+## Real public historical dataset — verified in GitHub
+
+**Published snapshot (28 October 2026): 1,026 World Bank WDI historical aggregate observations across 18 countries and five indicator categories.** This is a source-attributed dataset, not fabricated demo data, direct WHO GHO ingestion, live disease surveillance, or clinical validation.
+
+- **[Explore real WDI data in the live portfolio](https://harshakavali81-collab.github.io/harshavardhan-portfolio/healthpulse-worldbank.html)**
+- [Download real country-year dataset (JSON)](data/public/worldbank-wdi-2012-2024.json) · [CSV](data/public/worldbank-wdi-2012-2024.csv)
+- [SHA-256 provenance and coverage manifest](data/public/worldbank-manifest.json) · [Snapshot methodology](docs/WDI_SNAPSHOT.md)
+- [Read-only live API probe (passed)](https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/actions/runs/40648073095)
+- [Browser and mobile export test (passed)](https://github.com/harshakavali81-collab/harshavardhan-portfolio/actions/runs/40648952963)
+
+**Scope:** Requested years 2012–2024. Actual country and year coverage varies by indicator; do not infer unreported values. Hospital-bed data covers 16 of the 18 selected countries in this version. The static public WDI explorer consumes a verified JSON copy in the portfolio website; the local React/FastAPI app still requires an explicitly authorized import before its WorldBank selector is populated.
+
 ## World Bank WDI public-data pathway (new)
 
 All five existing health-indicator categories are now mapped to **World Bank WDI** public series, imported with a separate `WorldBank` source label (not directly from WHO GHO). The batch is explicitly admin-only and rejects incomplete metadata/pages or invalid values. It is **not** auto-fetched at startup, and public cloud data import has not been claimed.
