@@ -32,6 +32,10 @@ The importer is all-or-nothing for the validated batch: it fails on incorrect co
 
 On 2026-10-28, the WHO OData endpoint returned 500 for four checks from a GitHub runner. That does not establish a global WHO outage or prove that World Bank access is available. The independent WDI option can be validated on its own merits with live tests. WHO records remain labeled WHO, and synthetic observations remain labeled synthetic.
 
+## World Bank live connectivity verification
+
+The GitHub workflow [World Bank WDI live source probe](../.github/workflows/worldbank-live-probe.yml) uses a single-country fetch and verifies country metadata, indicator codes, response page counts, value units and record ranges. It does not write to the application's database. A passed *live* check verifies that request and data structure at the time of execution; it does **not** scientifically validate the figures or certify a production database. A failed check is reported as a failure rather than being masked by a green wrapper.
+
 ## Public health use warning
 
 This project is a research and hiring portfolio application, not a clinical tool, outbreak detector, resource allocation system or validated forecast. External epidemiology, statistical and privacy review is still needed for policy/clinical use.

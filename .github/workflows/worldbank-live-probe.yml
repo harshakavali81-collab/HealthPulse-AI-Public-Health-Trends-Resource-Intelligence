@@ -1,0 +1,36 @@
+name: World Bank WDI live source probe
+on:
+  workflow_dispatch:
+    inputs:
+      indicator:
+        description: "Bounded live read-only World Bank series"
+        required: true
+        default: life_expectancy
+        type: choice
+        options: [life_expectancy, immunization, physicians, hospital_beds, under5_mortality]
+      country:
+        description: "One ISO3 country to probe"
+        required: true
+        default: IND
+        type: choice
+        options: [IND, USA, BRA, NGA, AUS]
+  push:
+    paths:
+      - ".github/workflows/worldbank-live-probe.yml"
+permissions:
+  contents: read
+jobs:
+  wdi-live-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Fetch one WDI country series, no database writes
+        env:
+          WDI_INDICATOR: ${{ inputs.indicator || 'life_expectancy' }}
+          WDI_COUNTRY: ${{ inputs.country || 'IND' }}
+        run: PYTHONPATH=src:. python -m scripts.worldbank_probe --indicator "$WDI_INDICATOR" --country "$WDI_COUNTRY"
