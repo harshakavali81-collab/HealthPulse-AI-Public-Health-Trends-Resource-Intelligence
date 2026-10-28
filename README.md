@@ -66,6 +66,18 @@ Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg)
 
 [Explore the browser demo](https://harshakavali81-collab.github.io/harshavardhan-portfolio/healthpulse-demo.html) — works without a backend, with fabricated values and indicator/country/year filters. **This separate static showcase is not a deployment of FastAPI, does not access WHO, and is not the application’s actual seeded database.** Run Docker Compose for the full platform.
 
+## World Bank WDI public-data pathway (new)
+
+All five existing health-indicator categories are now mapped to **World Bank WDI** public series, imported with a separate `WorldBank` source label (not directly from WHO GHO). The batch is explicitly admin-only and rejects incomplete metadata/pages or invalid values. It is **not** auto-fetched at startup, and public cloud data import has not been claimed.
+
+```bash
+PYTHONPATH=src:. python -m scripts.worldbank_probe --indicator life_expectancy --country IND
+# If the probe passes and metadata has been reviewed, set ADMIN_API_KEY privately
+curl -X POST http://127.0.0.1:8000/api/admin/sync-worldbank/life_expectancy -H 'X-Admin-Key: PRIVATE_SECRET'
+```
+
+See [WDI sourcing, attribution and validation](docs/WORLDBANK_SOURCE.md) and [data dictionary](docs/DATA_DICTIONARY.md). The UI offers the optional source in the selector. The data is not in the demo until imported successfully.
+
 ## Live WHO connectivity status — 28 October 2026
 
 **WHO imports remain blocked pending upstream accessibility and source validation.** A read-only GitHub Actions probe queried four documented OData paths from a GitHub-hosted runner. All four returned **HTTP 500**, including unfiltered life expectancy and the indicator catalogue. This observation only applies to that runner at the stated time; it is not proof of a global WHO outage.

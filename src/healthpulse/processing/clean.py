@@ -25,7 +25,7 @@ def normalize_record(row):
     if len(country) != 3 or not country.isalpha():
         raise ValueError("Country must be three letter ISO-style code")
     source = str(row.get("source", "synthetic"))
-    if source not in ("synthetic", "WHO"):
+    if source not in ("synthetic", "WHO", "WorldBank"):
         raise ValueError("Unsupported source")
     return {
         "indicator": indicator, "country": country, "country_name": str(row.get("country_name") or country),
