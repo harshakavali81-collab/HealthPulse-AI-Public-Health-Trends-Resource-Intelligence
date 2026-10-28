@@ -1,0 +1,30 @@
+name: WHO endpoint diagnostics (read-only, informational)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/who-diagnostics.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install httpx>=0.27,<1
+      - name: Check minimal WHO endpoints
+        id: checks
+        continue-on-error: true
+        run: PYTHONPATH=src:. python -m scripts.who_diagnostics
+      - name: Publish audit result
+        if: always()
+        env:
+          OUTCOME: ${{ steps.checks.outcome }}
+        run: |
+          echo "## WHO connectivity diagnostics" >> "$GITHUB_STEP_SUMMARY"
+          echo "Read-only checks: **$OUTCOME**" >> "$GITHUB_STEP_SUMMARY"
+          echo "Review the job log for each endpoint's HTTP status. This workflow never imports or writes data." >> "$GITHUB_STEP_SUMMARY"
