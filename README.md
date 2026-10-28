@@ -61,6 +61,11 @@ Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg)
 - [Security notes](docs/SECURITY.md)
 - [Portfolio case study](docs/PORTFOLIO_CASE_STUDY.md)
 
+
+## Interactive public showcase (synthetic only)
+
+[Explore the browser demo](https://harshakavali81-collab.github.io/harshavardhan-portfolio/healthpulse-demo.html) — works without a backend, with fabricated values and indicator/country/year filters. **This separate static showcase is not a deployment of FastAPI, does not access WHO, and is not the application’s actual seeded database.** Run Docker Compose for the full platform.
+
 ## Quick start with Docker
 
 ```bash
