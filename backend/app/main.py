@@ -117,7 +117,7 @@ def resource_gaps(source: str = "synthetic"):
     latest = df.sort_values("year").drop_duplicates("country", keep="last").sort_values("value")
     result = latest[["country", "country_name", "value", "year"]].head(12).to_dict(orient="records")
     return {"source": source, "countries": result, "unit": "beds per 1,000",
-            "note": ("Fabricated demo resource-density illustration" if source == "synthetic" else "WHO aggregate resource-density context") + "; low density does not prove a shortage. Do not make allocation decisions."}
+            "note": ("Synthetic demo resource-density illustration" if source == "synthetic" else "WHO aggregate resource-density context") + "; low density does not prove a shortage. Do not make allocation decisions."}
 
 @app.post("/api/admin/sync-who/{indicator}")
 def sync_who(indicator: str, x_admin_key: str | None = Header(default=None)):
