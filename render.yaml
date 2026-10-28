@@ -10,7 +10,7 @@ services:
     branch: main
     dockerfilePath: ./Dockerfile.deploy
     autoDeployTrigger: checksPass
-    healthCheckPath: /api/health
+    healthCheckPath: /api/ready
     envVars:
       - key: HEALTHPULSE_DB
         value: /app/data/healthpulse.db

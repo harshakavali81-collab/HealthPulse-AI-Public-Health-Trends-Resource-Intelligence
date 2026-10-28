@@ -51,3 +51,7 @@ Exact volume-mount commands differ by Docker platform; this guide deliberately a
 ## Managing the published World Bank snapshot
 
 Bundled World Bank records are verified against their SHA-256 manifest at startup when `HEALTHPULSE_AUTOLOAD_WDI=1`. The data remains historical, not a live feed. Do not call per-indicator admin sync against a managed snapshot: the API deliberately returns HTTP 409 to prevent unreviewed overrides and misleading provenance. To update the published record set, use the dedicated source-audited GitHub snapshot publishing workflow and release the resulting complete dataset together with its manifest, then review the new counts and data definitions before deployment.
+
+## Liveness versus readiness
+
+`GET /api/health` reports process **liveness**. Docker and Render now monitor `GET /api/ready` for SQLite **readiness**: the database must exist, pass SQLite quick-check and contain consistent managed source record counts. Readiness uses a read-only SQLite connection and returns HTTP 503 for a missing or inconsistent database; it never creates one. It is **not** a substitute for independent epidemiological or source-methodology validation.

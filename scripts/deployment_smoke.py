@@ -27,6 +27,10 @@ def probe(base_url: str) -> dict:
         payload = demo.json()
         if not payload.get("records") or any(r.get("source") != "synthetic" for r in payload["records"]):
             raise RuntimeError("Synthetic records were not correctly source-tagged")
+        readiness = client.get(base + "/api/ready")
+        readiness.raise_for_status()
+        if not readiness.json().get("ready") or readiness.json().get("public_aggregate_rows") != 1026:
+            raise RuntimeError("Real WDI source missing or SQLite not ready")
         sources = client.get(base + "/api/sources")
         sources.raise_for_status()
         status = {x["source"]: x for x in sources.json()["sources"]}

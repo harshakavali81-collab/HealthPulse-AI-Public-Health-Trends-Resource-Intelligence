@@ -29,6 +29,9 @@ jobs:
           done
           test "$healthy" -eq 1
           grep -q '"status":"ok"' /tmp/healthpulse-health.json
+          curl -fsS http://127.0.0.1:18000/api/ready > /tmp/healthpulse-ready.json
+          grep -q '"ready":true' /tmp/healthpulse-ready.json
+          grep -q '"public_aggregate_rows":1026' /tmp/healthpulse-ready.json
           curl -fsS http://127.0.0.1:18000/ > /tmp/healthpulse-ui.html
           grep -qi 'healthpulse' /tmp/healthpulse-ui.html
           curl -fsS 'http://127.0.0.1:18000/api/records?indicator=life_expectancy&source=synthetic&limit=1' > /tmp/healthpulse-data.json

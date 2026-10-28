@@ -108,3 +108,29 @@ def query(indicator=None, country=None, source="synthetic", start_year=None, end
     sql += " ORDER BY year, country, indicator"
     with connect() as db:
         return [dict(r) for r in db.execute(sql, args)]
+
+def readiness_status():
+    """Check database availability without creating a missing database.
+
+    Operational readiness is not an epidemiological validation statement.
+    """
+    db_path=Path(path()).resolve()
+    if not db_path.is_file():
+        return {"ready":False,"reason":"database_missing"}
+    try:
+        with sqlite3.connect(db_path.as_uri()+"?mode=ro",uri=True,timeout=3) as db:
+            result=db.execute("PRAGMA quick_check(1)").fetchone()
+            if not result or result[0]!="ok":
+                return {"ready":False,"reason":"sqlite_integrity"}
+            counts=dict(db.execute("SELECT source,COUNT(*) FROM observations GROUP BY source"))
+            if counts.get("synthetic",0)<1:
+                return {"ready":False,"reason":"demo_seed_missing"}
+            if os.getenv("HEALTHPULSE_AUTOLOAD_WDI","0")=="1":
+                marker=db.execute("SELECT observations FROM source_snapshots WHERE source='WorldBank'").fetchone()
+                if not marker or marker[0]<1 or marker[0]!=counts.get("WorldBank",0):
+                    return {"ready":False,"reason":"managed_wdi_snapshot_inconsistent"}
+            return {"ready":True,"sources_available":sum(c>0 for c in counts.values()),
+                    "public_aggregate_rows":counts.get("WorldBank",0),
+                    "note":"Operational SQLite readiness only; not public-health or source validation"}
+    except (sqlite3.Error,OSError):
+        return {"ready":False,"reason":"database_unreadable"}

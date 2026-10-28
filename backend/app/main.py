@@ -15,7 +15,7 @@ from healthpulse.models.cluster_regions import cluster_countries
 from healthpulse.monitoring.quality import quality_report
 from healthpulse.ingestion.who_loader import fetch_who_indicator
 from healthpulse.ingestion.worldbank_loader import fetch_worldbank_indicator, WB_CODES
-from backend.app.db.store import initialize, insert_records, query, source_status
+from backend.app.db.store import initialize, insert_records, query, source_status, readiness_status
 
 @asynccontextmanager
 async def lifespan(app):
@@ -51,6 +51,14 @@ def read(indicator=None, country=None, source="synthetic", start_year=None, end_
 @app.get("/api/health")
 def health():
     return {"status": "ok", "service": "healthpulse-api", "version": "1.0.0"}
+
+@app.get("/api/ready")
+def readiness():
+    state=readiness_status()
+    if not state["ready"]:
+        raise HTTPException(status_code=503,detail=state)
+    return state
+
 
 @app.get("/api/sources")
 def sources():

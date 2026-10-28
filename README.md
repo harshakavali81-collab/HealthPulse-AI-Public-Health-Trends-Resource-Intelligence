@@ -243,3 +243,7 @@ This prototype deliberately separates WHO and synthetic records and makes no pat
 ## Deployment safety regression checks
 
 The single-container server mounts React after its registered API routes so `/api/admin/...` remains protected and accessible for its intended disabled response. The World Bank snapshot is pinned to a SHA-256 manifest, and per-indicator WDI admin refresh returns **409 Conflict** when the pinned dataset is managed; this prevents silent source replacement. Invalid write batches are rejected atomically. Docker CI probes frontend + backend, WDI counts and unauthorized admin endpoints, and checks baseline HTTP response headers. This is deployment **verification**, not confirmation of a paid cloud deployment or clinical/policy validation.
+
+## Operational readiness monitoring
+
+The Docker and Render health checks now use `GET /api/ready`. Unlike `/api/health`, this checks SQLite integrity and the expected row count for a checksum-managed World Bank historical snapshot. It returns HTTP 503 when the required database is unavailable or inconsistent, allowing hosting health monitoring to distinguish an operationally ready API from a merely running process. This is not clinical or policy certification.
