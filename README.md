@@ -110,6 +110,10 @@ docker run --rm -p 8000:8000 healthpulse-all-in-one
 
 The old two-container Docker Compose workflow is retained for local development.
 
+## GitHub Container Registry release
+
+A [version-tagged Docker image publishing workflow](.github/workflows/publish-container.yml) builds a full-stack release for GitHub Container Registry with commit-specific tags and OCI digests. An image is a deployable software artifact, **not** a publicly hosted API. Package visibility, image publishing success and any cloud hosting must be verified separately. See [container release guide](docs/CONTAINER_RELEASE.md).
+
 ## Quick start with Docker
 
 ```bash

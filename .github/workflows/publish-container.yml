@@ -1,0 +1,73 @@
+name: Publish tested HealthPulse Docker image
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Dockerfile.deploy'
+      - 'requirements.txt'
+      - 'backend/**'
+      - 'src/**'
+      - 'frontend/**'
+      - 'data/public/**'
+      - '.github/workflows/publish-container.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+concurrency:
+  group: healthpulse-container-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out complete application and published data
+        uses: actions/checkout@v4
+      - name: Set up multi-stage Docker builder
+        uses: docker/setup-buildx-action@v3
+      - name: Authenticate only to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Derive immutable and moving image tags
+        id: info
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - name: Build and publish versioned full-stack image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.deploy
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ steps.info.outputs.image }}:main
+            ${{ steps.info.outputs.image }}:sha-${{ steps.info.outputs.short_sha }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.description=HealthPulse AI historical public WDI aggregate dashboard; not clinical decision support
+            org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Record exact image digest for deployment handoff
+        shell: bash
+        env:
+          IMAGE: ${{ steps.info.outputs.image }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+          SHORT_SHA: ${{ steps.info.outputs.short_sha }}
+        run: |
+          {
+            echo "## HealthPulse AI container artifact"
+            echo "Image: \`${IMAGE}:main\`"
+            echo "Immutable commit tag: \`${IMAGE}:sha-${SHORT_SHA}\`"
+            echo "Digest: \`${DIGEST}\`"
+            echo "This is a **container artifact**, not a public backend URL."
+            echo "A newly created GHCR package may be private until package visibility is explicitly changed."
+          } >> "$GITHUB_STEP_SUMMARY"
