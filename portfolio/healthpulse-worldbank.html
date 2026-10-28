@@ -1,0 +1,112 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HealthPulse AI | World Bank Real Public Data Explorer</title>
+<meta name="description" content="Interactive historical public-health statistics from the World Bank World Development Indicators API. No patient data, no clinical decisions.">
+<meta name="theme-color" content="#081d29">
+<style>
+:root{color-scheme:dark;--bg:#081b29;--panel:#102c3a;--ink:#ecfbfd;--muted:#a4c0c8;--accent:#6ce3c7;--border:#315061;--amber:#f6c48c}*{box-sizing:border-box}
+body{margin:0;font:14px/1.58 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 75% 0%,#17465a,transparent 45%),var(--bg)}
+a{color:var(--accent)}.wrap{max-width:1230px;margin:auto;padding:0 24px}.nav{padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:18px}.logo{font-weight:900;font-size:20px;text-decoration:none;color:var(--ink)}.logo span{color:var(--accent)}.links{display:flex;gap:20px;align-items:center;flex-wrap:wrap}.links a{text-decoration:none;font-size:13px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:800}.hero{padding:45px 0 20px}h1{font-size:clamp(31px,4.5vw,54px);line-height:1.1;letter-spacing:-2px;max-width:820px;margin:14px 0}h1 span{color:var(--accent)}.hero p{font-size:16px;color:var(--muted);max-width:850px}
+.note{border:1px solid #4b8c88;background:#113f42;padding:17px 20px;border-radius:12px;margin:20px 0;color:#d7f4e9}.note strong{display:block;margin-bottom:4px}
+.controls{display:grid;grid-template-columns:1.5fr 1.1fr 1fr auto;gap:12px;margin:23px 0}.control label{display:block;color:var(--muted);font-size:12px;margin:0 0 5px}.control select,.action{width:100%;font:inherit;padding:12px;border-radius:10px;border:1px solid var(--border);background:#15374a;color:var(--ink)}.action{cursor:pointer;background:var(--accent);font-weight:800;color:#0e2834;border-color:transparent}.action:disabled{opacity:.5;cursor:not-allowed}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.kpi{border:1px solid var(--border);border-radius:15px;background:linear-gradient(135deg,#163847,#102e40);padding:22px}.kpi span{color:var(--muted);font-size:12px}.kpi strong{display:block;font-size:27px;letter-spacing:-.5px;margin:9px 0}.kpi small{color:#c0d6d9}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:15px;margin:16px 0}.panel{border:1px solid var(--border);border-radius:15px;background:#0e2636;padding:23px;min-width:0}.panel h2{font-size:19px;margin:0 0 4px}.panel p{color:var(--muted);margin:0 0 18px;font-size:12px}.panel svg{width:100%;display:block;min-height:220px}.bar{display:grid;grid-template-columns:115px 1fr 60px;gap:10px;align-items:center;margin:17px 0}.bar span{font-size:12px}.track{background:#254755;border-radius:7px;height:13px;overflow:hidden}.track b{display:block;height:100%;background:linear-gradient(90deg,#3aaeb0,#78e4c6);border-radius:7px}.bar strong{text-align:right;font-size:12px}
+.tablewrap{overflow:auto;max-height:400px}table{border-collapse:collapse;width:100%}th,td{padding:11px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}th{color:var(--muted);font-weight:600}.status{display:block;margin:15px 0;color:var(--muted)}.status.error{color:#ffc3b4}.disclaimer{font-size:12px;color:var(--muted);line-height:1.85;margin:35px 0 55px}.disclaimer strong{color:var(--ink)}.tags{display:flex;gap:8px;flex-wrap:wrap}.tag{border:1px solid var(--border);background:#173b42;padding:5px 10px;border-radius:30px;color:#b7e7d7;font-size:11px}
+@media(max-width:800px){.controls{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:450px){.wrap{padding:0 14px}.controls{grid-template-columns:1fr}.kpi{padding:13px}.kpi strong{font-size:22px}.panel{padding:14px}.bar{grid-template-columns:90px 1fr 50px}}
+</style></head><body>
+<div class="wrap"><header class="nav"><a href="./" class="logo">♥ HealthPulse<span> AI</span></a><div class="links"><a href="healthpulse-demo.html">Synthetic demo</a><a href="cases/healthpulse.html">Case study</a><a href="https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence" target="_blank" rel="noopener">GitHub source ↗</a></div></header>
+<main><section class="hero"><div class="eyebrow">HISTORICAL PUBLIC HEALTH · WORLD BANK WDI</div><h1>Real public indicators.<br><span>Transparent sources.</span></h1><p>A browser-based explorer of World Bank World Development Indicators (WDI) public country-level series. This is an independently sourced, versioned static snapshot — not a WHO GHO API client, real-time surveillance or medical tool.</p>
+<div class="tags"><span class="tag">World Bank WDI</span><span class="tag">2012–2024 requested</span><span class="tag">Countries with reported values only</span><span class="tag">No patient information</span></div></section>
+<div class="note"><strong>Data provenance and limitations</strong>Values below are historical public aggregates attributed to World Bank WDI and underlying data publishers. They may be estimates or revised; the data are not individual health outcomes. Comparisons are unweighted means, not official regional estimates. Nothing here diagnoses disease or determines resource needs.</div>
+<p class="status" id="status" aria-live="polite">Loading audited World Bank snapshot…</p>
+<section class="controls" aria-label="Explore World Bank WDI data"><div class="control"><label for="indicator">Indicator</label><select id="indicator"></select></div><div class="control"><label for="country">Country</label><select id="country"></select></div><div class="control"><label for="year">Reporting year</label><select id="year"></select></div><button class="action" type="button" id="download" disabled>Export selected CSV</button></section>
+<section class="kpis"><div class="kpi"><span>Selected country value</span><strong id="countryVal">—</strong><small id="unit"></small></div><div class="kpi"><span>Mean of reporting countries</span><strong id="mean">—</strong><small>Equal weighting · available countries</small></div><div class="kpi"><span>Reporting countries</span><strong id="countries">—</strong><small>Observed for selected year</small></div><div class="kpi"><span>Last source retrieval (UTC)</span><strong style="font-size:17px" id="fetched">—</strong><small>Historical data; not live monitoring</small></div></section>
+<section class="grid"><article class="panel"><h2>Country trend</h2><p id="trendSubtitle">Published annual observations; missing years are not invented</p><svg id="trend" role="img" aria-label="Published World Bank WDI historical series" viewBox="0 0 640 270"></svg></article>
+<article class="panel"><h2>Reporting-region comparisons</h2><p>Unweighted means for available countries in selected year</p><div id="regions"></div></article></section>
+<section class="grid"><article class="panel"><h2>Country records</h2><p>Available values, not a ranking of health-system performance</p><div class="tablewrap"><table><thead><tr><th>Country</th><th>Region</th><th>Year</th><th>Value</th></tr></thead><tbody id="rows"></tbody></table></div></article>
+<article class="panel"><h2>Dataset integrity</h2><p>Versioned provider snapshot, with source identifiers and checksum</p><div id="manifest" style="line-height:1.9;color:var(--muted)">Waiting for source metadata…</div><p><a id="rawLink" target="_blank" rel="noopener" href="https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/tree/main/data/public">View source records and manifest ↗</a></p></article></section></main>
+<footer class="disclaimer"><strong>Public-health disclaimer:</strong> For research exploration, education and software portfolio only. Forecasting, outbreak detection, patient-risk assessment, equity conclusions and operational resource-allocation decisions are outside this application's validated scope. <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392">World Bank API documentation</a> · <a href="https://github.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/blob/main/docs/VALIDATION_PLAN.md">Validation requirements</a>.</footer></div>
+<script>
+'use strict';
+const url='https://raw.githubusercontent.com/harshakavali81-collab/HealthPulse-AI-Public-Health-Trends-Resource-Intelligence/main/data/public/worldbank-wdi-2012-2024.json';
+let dataset=null;
+const name={life_expectancy:'Life expectancy at birth',immunization:'DPT3 immunization coverage',physicians:'Physicians per 1,000',hospital_beds:'Hospital beds per 1,000',under5_mortality:'Under-five mortality rate'};
+const source=document.getElementById('status'),indicator=document.getElementById('indicator'),country=document.getElementById('country'),year=document.getElementById('year');
+const f=v=>Number.isFinite(v)?Number(v).toLocaleString('en-US',{maximumFractionDigits:2}):'—';
+function setOptions(el, entries, preferred){
+ el.replaceChildren(...entries.map(([v,label])=>{const o=document.createElement('option');o.value=v;o.textContent=label;return o}));
+ if(preferred && entries.some(e=>e[0]===preferred))el.value=preferred;
+}
+function sourceRows(){return dataset.records.filter(r=>r.indicator===indicator.value)}
+function updateCountries(){
+ const all=sourceRows();
+ const opts=[...new Map(all.map(r=>[r.country,r.country_name])).entries()].sort((a,b)=>a[1].localeCompare(b[1]));
+ setOptions(country,opts,country.value||'IND'); if(opts.some(v=>v[0]==='IND')&&!country.dataset.initial){country.value='IND';country.dataset.initial='1'}
+ updateYears();
+}
+function updateYears(){
+ const ys=[...new Set(sourceRows().map(r=>r.year))].sort((a,b)=>b-a);
+ setOptions(year,ys.map(v=>[String(v),String(v)]),year.value);
+ render();
+}
+function lineGraph(points){
+ const svg=document.getElementById('trend');
+ if(!points.length){svg.textContent='';return}
+ const minY=Math.min(...points.map(r=>r.value)),maxY=Math.max(...points.map(r=>r.value));const step=Math.max(0.2,(maxY-minY)*.2);
+ const lo=minY-step,hi=maxY+step;const minX=Math.min(...points.map(r=>r.year)),maxX=Math.max(...points.map(r=>r.year));
+ const x=y=>50+(y-minX)/Math.max(1,maxX-minX)*560,y=v=>215-(v-lo)/(hi-lo)*175;
+ const parts=[];
+ for(let i=0;i<5;i++){const yPos=35+i*45;parts.push('<line x1="50" y1="'+yPos+'" x2="615" y2="'+yPos+'" stroke="#325363"/>')}
+ parts.push('<path d="'+points.map((r,i)=>(i?'L':'M')+x(r.year).toFixed(1)+','+y(r.value).toFixed(1)).join(' ')+'" stroke="#6be3c7" fill="none" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>');
+ for(const r of points){parts.push('<circle cx="'+x(r.year).toFixed(1)+'" cy="'+y(r.value).toFixed(1)+'" r="3.4" fill="#aeffe4"/>')}
+ for(const r of [points[0],points[points.length-1]])parts.push('<text text-anchor="middle" font-size="12" fill="#bcd9e0" x="'+x(r.year)+'" y="254">'+r.year+'</text>');
+ svg.innerHTML=parts.join('');
+}
+function render(){
+ if(!dataset)return;
+ const records=sourceRows(),selected=+year.value,code=country.value;
+ const shown=records.filter(r=>r.year===selected).sort((a,b)=>b.value-a.value);
+ const focus=records.filter(r=>r.country===code).sort((a,b)=>a.year-b.year);
+ const selectedRow=shown.find(r=>r.country===code);
+ document.getElementById('countryVal').textContent=selectedRow?f(selectedRow.value):'N/A';
+ document.getElementById('unit').textContent=selectedRow?selectedRow.unit:'No report for selected country/year';
+ document.getElementById('mean').textContent=shown.length?f(shown.reduce((x,r)=>x+r.value,0)/shown.length):'N/A';
+ document.getElementById('countries').textContent=shown.length;
+ document.getElementById('fetched').textContent=dataset.fetched_at_utc?.slice(0,16).replace('T',' ')||'—';
+ document.getElementById('trendSubtitle').textContent=(focus[0]?.country_name||code)+' · '+(name[indicator.value]||indicator.value)+' · country reports only';
+ lineGraph(focus);
+ const groups={};for(const r of shown)(groups[r.region]??=[]).push(r.value);
+ const averaged=Object.entries(groups).map(([region,values])=>({region,value:values.reduce((a,b)=>a+b,0)/values.length})).sort((a,b)=>b.value-a.value);
+ const max=Math.max(1,...averaged.map(r=>r.value));
+ const region=document.getElementById('regions');region.replaceChildren(...averaged.map(item=>{
+  const outer=document.createElement('div');outer.className='bar';
+  const label=document.createElement('span');label.textContent=item.region;
+  const track=document.createElement('div');track.className='track';
+  const b=document.createElement('b');b.style.width=Math.max(0,100*item.value/max)+'%';track.append(b);
+  const number=document.createElement('strong');number.textContent=f(item.value);
+  outer.append(label,track,number);return outer;
+ }));
+ const tb=document.getElementById('rows');tb.replaceChildren(...shown.map(r=>{
+  const tr=document.createElement('tr');for(const v of [r.country_name,r.region,r.year,f(r.value)]){const td=document.createElement('td');td.textContent=String(v);tr.append(td)}return tr;
+ }));
+ document.getElementById('download').disabled=!records.length;
+}
+function exportCsv(){
+ const headers=['indicator','country','country_name','region','year','value','unit','source','source_url','note'];
+ const rows=sourceRows().filter(r=>r.country===country.value);
+ const csv=[headers,...rows.map(r=>headers.map(key=>String(r[key]??'')))].map(row=>row.map(cell=>'"'+( /^[=+\-@\t\r]/.test(cell)?"'"+cell:cell).replaceAll('"','""')+'"').join(',')).join('\r\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),uri=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=uri;a.download='WorldBank-WDI-'+indicator.value+'-'+country.value+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(uri),1000);
+}
+indicator.addEventListener('change',updateCountries);country.addEventListener('change',render);year.addEventListener('change',render);document.getElementById('download').addEventListener('click',exportCsv);
+fetch(url,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('Snapshot has not been published or could not be reached (HTTP '+r.status+')');return r.json()}).then(d=>{
+ if(d.source!=='WorldBank'||!Array.isArray(d.records)||!d.records.length||!Array.isArray(d.indicator_manifest)||d.indicator_manifest.length!==5)throw new Error('Snapshot source or integrity metadata is not valid');
+ if(d.records.some(x=>x.source!=='WorldBank'))throw new Error('Cannot mix source types');
+ dataset=d;
+ const entries=d.indicator_manifest.map(m=>[m.indicator,name[m.indicator]||m.indicator]);
+ setOptions(indicator,entries,'life_expectancy');updateCountries();
+ source.textContent='Verified-source snapshot loaded · '+d.records.length+' public country-year observations · fetched '+String(d.fetched_at_utc).slice(0,16)+' UTC';
+ document.getElementById('manifest').textContent='Publisher: '+d.publisher+' · Source: World Bank WDI · '+d.records.length+' records · '+d.indicator_manifest.length+' indicators · Requested: 2012–2024 · License: '+d.license+' · Not clinically validated.';
+}).catch(e=>{source.classList.add('error');source.textContent='Real data are unavailable: '+e.message+'. No synthetic results will be substituted. See the repository for data status.';});
+</script></body></html>
