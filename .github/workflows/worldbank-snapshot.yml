@@ -1,0 +1,44 @@
+name: Publish audited World Bank public snapshot
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/worldbank-snapshot.yml'
+permissions:
+  contents: write
+jobs:
+  publish-source-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: worldbank-snapshot
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Fetch, validate and save complete WDI aggregate batches
+        run: PYTHONPATH=src:. python -m scripts.build_wdi_snapshot --out data/public
+      - name: Upload checked public snapshot as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: worldbank-wdi-public-snapshot
+          path: data/public/worldbank-*
+          if-no-files-found: error
+      - name: Commit public-only aggregate snapshot to the repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/public/worldbank-*
+          if git diff --cached --quiet; then
+            echo "Snapshot unchanged"
+          else
+            git commit -m "data: add source-labeled World Bank public historical aggregate snapshot"
+            git push origin HEAD:main
+          fi
