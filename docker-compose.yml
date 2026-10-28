@@ -7,6 +7,7 @@ services:
     environment:
       HEALTHPULSE_DB: /app/data/healthpulse.db
       ADMIN_API_KEY: ${ADMIN_API_KEY:-}
+      HEALTHPULSE_AUTOLOAD_WDI: '1'
     volumes:
       - healthpulse_data:/app/data
     ports:

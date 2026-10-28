@@ -4,6 +4,7 @@ import sqlite3
 from pathlib import Path
 from healthpulse.ingestion.public_dataset_loader import make_demo_data
 from healthpulse.processing.validate import validate_records
+from healthpulse.ingestion.published_snapshot import import_verified_snapshot
 
 FIELDS = ("indicator", "country", "country_name", "region", "year", "value", "unit", "source", "source_url", "note")
 SCHEMA = """
@@ -16,6 +17,10 @@ CREATE TABLE IF NOT EXISTS observations (
   UNIQUE(indicator, country, year, source)
 );
 CREATE INDEX IF NOT EXISTS idx_indicator_source_year ON observations(indicator, source, year);
+CREATE TABLE IF NOT EXISTS source_snapshots (
+  source TEXT PRIMARY KEY, sha256 TEXT NOT NULL, observations INTEGER NOT NULL,
+  fetched_at_utc TEXT
+);
 """
 
 def path():
@@ -42,8 +47,51 @@ def initialize():
     with connect() as db:
         db.executescript(SCHEMA)
         count = db.execute("SELECT COUNT(*) FROM observations WHERE source='synthetic'").fetchone()[0]
-    if count == 0:
-        insert_records(make_demo_data())
+        if count == 0:
+            cols = ", ".join(FIELDS)
+            placeholders = ",".join("?" for _ in FIELDS)
+            db.executemany(
+                f"INSERT INTO observations({cols}) VALUES({placeholders})",
+                [tuple(r[field] for field in FIELDS) for r in make_demo_data()],
+            )
+        if os.getenv("HEALTHPULSE_AUTOLOAD_WDI", "0") == "1":
+            wdi = import_verified_snapshot(db)
+        else:
+            wdi = {"action": "disabled"}
+    return {"synthetic_seeded": count == 0, "wdi": wdi}
+
+
+def source_status():
+    sources = []
+    with connect() as db:
+        details = {
+            r["source"]: dict(r)
+            for r in db.execute(
+                """SELECT source, COUNT(*) AS observations,
+                          COUNT(DISTINCT country) AS countries,
+                          COUNT(DISTINCT indicator) AS indicators
+                   FROM observations GROUP BY source"""
+            )
+        }
+        marker = db.execute(
+            "SELECT sha256,fetched_at_utc,observations FROM source_snapshots WHERE source='WorldBank'"
+        ).fetchone()
+    for source in ("synthetic", "WHO", "WorldBank"):
+        details_for_source = details.get(source) or {}
+        entry = {
+            "source": source,
+            "available": bool(details_for_source.get("observations", 0)),
+            "observations": details_for_source.get("observations", 0),
+            "countries": details_for_source.get("countries", 0),
+            "indicators": details_for_source.get("indicators", 0),
+            "provider": {"synthetic": "fabricated demonstration", "WHO": "WHO GHO", "WorldBank": "World Bank WDI"}[source],
+        }
+        if source == "WorldBank" and marker:
+            entry["published_snapshot_sha256"] = marker["sha256"]
+            entry["fetched_at_utc"] = marker["fetched_at_utc"]
+        sources.append(entry)
+    return {"sources": sources}
+
 
 def query(indicator=None, country=None, source="synthetic", start_year=None, end_year=None):
     sql = "SELECT indicator,country,country_name,region,year,value,unit,source,source_url,note,ingested_at FROM observations WHERE source=?"

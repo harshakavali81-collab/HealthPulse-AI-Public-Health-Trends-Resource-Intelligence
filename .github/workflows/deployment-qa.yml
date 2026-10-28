@@ -33,6 +33,11 @@ jobs:
           grep -qi 'healthpulse' /tmp/healthpulse-ui.html
           curl -fsS 'http://127.0.0.1:18000/api/records?indicator=life_expectancy&source=synthetic&limit=1' > /tmp/healthpulse-data.json
           grep -q '"source":"synthetic"' /tmp/healthpulse-data.json
+          curl -fsS 'http://127.0.0.1:18000/api/sources' > /tmp/healthpulse-sources.json
+          grep -q '"source":"WorldBank"' /tmp/healthpulse-sources.json
+          curl -fsS 'http://127.0.0.1:18000/api/records?indicator=life_expectancy&source=WorldBank&limit=1' > /tmp/healthpulse-wdi.json
+          grep -q '"source":"WorldBank"' /tmp/healthpulse-wdi.json
+          grep -q '"total":234' /tmp/healthpulse-wdi.json
           status=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:18000/api/admin/sync-who/life_expectancy)
           test "$status" = 503
       - name: Container logs (on failure)

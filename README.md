@@ -10,7 +10,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-REST-009688?style=flat-square&logo=fastapi&logoColor=white) ![React](https://img.shields.io/badge/React-Vite-149ECA?style=flat-square&logo=react&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white) ![Tests](https://img.shields.io/badge/Python-automated_tests-16A34A?style=flat-square)
 
-**⚠️ Synthetic example data by default — not official surveillance or clinical decision support.**
+**⚠️ The Docker app loads a checksum-verified historical World Bank WDI snapshot by default and retains separate synthetic demo data. This is not real-time surveillance or clinical decision support.**
 
 </div>
 
@@ -161,6 +161,14 @@ curl 'http://localhost:8000/api/clusters'
 curl 'http://localhost:8000/api/quality'
 curl 'http://localhost:8000/api/resources'
 ```
+
+## Verified historical World Bank data in the full application
+
+The Docker Compose and single-container deployment images include the already-published **1,026-row World Bank WDI snapshot**, and enable `HEALTHPULSE_AUTOLOAD_WDI=1`. On startup, FastAPI compares the packaged JSON SHA-256 against its provenance manifest, validates all records and seeds the SQLite `WorldBank` source transactionally. Its country/year statistics are available in `GET /api/sources`. The UI selects World Bank WDI automatically when populated, or uses the separately labeled synthetic demonstration if unavailable.
+
+This startup seed requires **no WHO connectivity, API key or data download**. It leaves unrelated/manual World Bank records alone unless previously managed through the built-in snapshot marker. The source remains historical and cannot be treated as a live WHO feed.
+
+Direct `uvicorn` startup does not auto-load unless `HEALTHPULSE_AUTOLOAD_WDI=1` is set. Docker Compose and `Dockerfile.deploy` already configure it. A missing or invalid snapshot in an enabled environment raises an error instead of displaying fabricated values as real.
 
 ## Data quality and operations
 

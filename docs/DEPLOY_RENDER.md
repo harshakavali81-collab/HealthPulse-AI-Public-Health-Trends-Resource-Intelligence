@@ -8,6 +8,7 @@
 - This repo contains a `render.yaml` Blueprint specifying **Starter compute and a persistent disk**, both of which may incur charges. Review the final costs **before creating a service**. Do not select this setup without accepting the price.
 - The blueprint uses a single instance with durable SQLite in `/app/data`. SQLite cannot scale to multiple independent instances. A persistent disk prevents zero-downtime deploys.
 - `ADMIN_API_KEY` is intentionally unset; public write/sync access starts disabled. No personal health information belongs in this app.
+- The image ships the verified 1,026-row World Bank WDI historical snapshot, checks its SHA-256 manifest at startup, and exposes it through `GET /api/sources`. It makes no live WHO request at startup.
 
 ## Render deployment
 
@@ -16,7 +17,7 @@
 3. Wait for the Render dashboard to show an active deployed service. Render generates the real `https://...onrender.com` URL — **do not guess it**.
 4. Open `https://YOUR-ACTUAL-SERVICE.onrender.com/api/health` and confirm JSON status `ok`.
 5. Open the root URL for the actual React UI. Verify indicator changes, synthetic labeling, provenance, quality page and CSV export.
-6. Validate `/api/records?source=WHO` returns 0 until an authorized verified WHO import is performed.
+6. Validate `/api/sources` reports 1,026 World Bank WDI observations and `/api/records?indicator=life_expectancy&source=WorldBank` reports 234. Validate `/api/records?source=WHO` returns 0 until an authorized verified WHO import is performed.
 7. Verify unauthenticated `POST /api/admin/sync-who/life_expectancy` responds 503 when admin key is not configured.
 8. On a planned maintenance cycle, take and verify a SQLite backup (see [operations](OPERATIONS.md)).
 

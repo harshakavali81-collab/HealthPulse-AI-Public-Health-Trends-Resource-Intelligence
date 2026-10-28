@@ -12,12 +12,14 @@ ENV PYTHONPATH=/app/src:/app \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     HEALTHPULSE_SERVE_UI=1 \
-    HEALTHPULSE_DB=/app/data/healthpulse.db
+    HEALTHPULSE_DB=/app/data/healthpulse.db \
+    HEALTHPULSE_AUTOLOAD_WDI=1
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY src/ src/
 COPY backend/ backend/
 COPY scripts/ scripts/
+COPY data/public/ data/public/
 COPY --from=ui-build /build/frontend/dist ./frontend/dist/
 RUN mkdir -p /app/data
 EXPOSE 8000

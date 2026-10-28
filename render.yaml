@@ -16,6 +16,8 @@ services:
         value: /app/data/healthpulse.db
       - key: HEALTHPULSE_SERVE_UI
         value: "1"
+      - key: HEALTHPULSE_AUTOLOAD_WDI
+        value: "1"
       - key: PYTHONUNBUFFERED
         value: "1"
       # ADMIN_API_KEY intentionally omitted. The public service defaults to

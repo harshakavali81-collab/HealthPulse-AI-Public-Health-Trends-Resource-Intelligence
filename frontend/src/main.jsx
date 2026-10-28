@@ -29,7 +29,18 @@ function App(){
   const [allRecords,setAllRecords]=useState([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState('');
+  const [sourceCounts,setSourceCounts]=useState({});
   const metadata = catalogue.find(i=>i.id===indicator);
+  useEffect(()=>{
+    let active=true;
+    api('/sources').then(({sources})=>{
+      if(!active) return;
+      const counts=Object.fromEntries(sources.map(s=>[s.source,s.observations]));
+      setSourceCounts(counts);
+      if(counts.WorldBank>0) setSource('WorldBank');
+    }).catch(()=>{});
+    return()=>{active=false};
+  },[]);
   useEffect(()=>{
     let active=true; setLoading(true);setError('');
     api('/records',{source,indicator,limit:5000}).then(x=>{if(active){setAllRecords(x.records);setLoading(false)}})
@@ -60,7 +71,7 @@ function App(){
       <main className="workspace">
         <div className="heading-row"><div><div className="eyebrow"><Globe2 size={14}/> GLOBAL HEALTH OBSERVATORY</div><h1>{page==='Overview'?'Health at a glance':page}</h1><p className="subtitle">Explore public health indicators with meaningful context, transparent data and reproducible analytics.</p></div><button onClick={exportCSV} className="export-btn" disabled={!allRecords.length}><Download size={17}/> Export CSV</button></div>
         <div className="alert-banner"><ShieldCheck size={19}/><div><strong>{source==='synthetic'?'Demonstration dataset — not official health statistics':source==='WorldBank'?'World Bank WDI — historical public aggregates, not WHO GHO':'WHO GHO dataset — definitions and coverage vary'}</strong><span>{source==='synthetic'?'All numbers shown are fabricated for software demonstration. Public data require authorized import.':source==='WorldBank'?'World Bank indicators have different coverage, units and revision cycles. Source and dates must be verified.':'WHO data are historical aggregates; verify indicator metadata, disaggregation and reporting delays.'}</span></div></div>
-        <section className="filter-panel"><div className="filter-control"><label>Indicator</label><select value={indicator} onChange={e=>setIndicator(e.target.value)}>{catalogue.map(i=><option key={i.id} value={i.id}>{i.name}</option>)}</select></div><div className="filter-control"><label>Data source</label><select value={source} onChange={e=>setSource(e.target.value)}><option value="synthetic">Synthetic demo</option><option value="WHO">WHO GHO (if synced)</option><option value="WorldBank">World Bank WDI (if synced)</option></select></div><div className="filter-control"><label>Country spotlight</label><select value={country} onChange={e=>setCountry(e.target.value)} disabled={!countries.length}>{countries.map(([code,name])=><option key={code} value={code}>{name}</option>)}</select></div></section>
+        <section className="filter-panel"><div className="filter-control"><label>Indicator</label><select value={indicator} onChange={e=>setIndicator(e.target.value)}>{catalogue.map(i=><option key={i.id} value={i.id}>{i.name}</option>)}</select></div><div className="filter-control"><label>Data source</label><select value={source} onChange={e=>setSource(e.target.value)}><option value="synthetic">Synthetic demo</option><option value="WHO">WHO GHO (if synced)</option><option value="WorldBank">World Bank WDI {sourceCounts.WorldBank>0?'(historical data loaded)':'(if imported)'}</option></select></div><div className="filter-control"><label>Country spotlight</label><select value={country} onChange={e=>setCountry(e.target.value)} disabled={!countries.length}>{countries.map(([code,name])=><option key={code} value={code}>{name}</option>)}</select></div></section>
         {error&&<div className="error-banner" role="alert">{error}</div>}
         {page==='Overview'&&<Overview {...shared}/>}
         {page==='Indicators'&&<Indicators {...shared}/>}
