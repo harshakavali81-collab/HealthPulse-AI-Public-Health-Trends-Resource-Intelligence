@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 660" width="1200" height="660">
+<title id="title">Immunization · four-country coverage trends</title><desc id="desc">Historical World Bank WDI country-level data, DTP3 immunization coverage (%), 2012 to 2024. Not a clinical assessment. Missing years are not interpolated.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#122a40"/><stop offset="1" stop-color="#081b2b"/></linearGradient></defs><rect width="1200" height="660" rx="25" fill="url(#bg)"/>
+<text x="128" y="63" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="29" font-weight="700" fill="#f4fffd">Immunization · four-country coverage trends</text><text x="128" y="91" font-family="Arial,sans-serif" font-size="17" fill="#b6d8d7">DTP3 immunization coverage (%) · reported values only</text>
+<line x1="128" x2="1088" y1="537.0" y2="537.0" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="542" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">26.1</text>
+<line x1="128" x2="1088" y1="437.5" y2="437.5" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="442.5" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">46.5</text>
+<line x1="128" x2="1088" y1="338.0" y2="338.0" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="343" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">67.0</text>
+<line x1="128" x2="1088" y1="238.5" y2="238.5" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="243.49999999999997" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">87.5</text>
+<line x1="128" x2="1088" y1="139.0" y2="139.0" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="144" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">107.9</text>
+<text x="128" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2012</text>
+<text x="288" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2014</text>
+<text x="448" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2016</text>
+<text x="608" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2018</text>
+<text x="768" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2020</text>
+<text x="928" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2022</text>
+<text x="1088" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2024</text>
+<path d="M128.00,265.05 L208.00,260.19 L288.00,250.46 L368.00,240.74 L448.00,235.87 L528.00,231.01 L608.00,226.15 L688.00,221.28 L768.00,250.46 L848.00,250.46 L928.00,211.56 L1008.00,221.28 L1088.00,206.70" stroke="#67e5ce" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="265.05" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="260.19" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="250.46" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="240.74" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="235.87" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="231.01" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="226.15" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="221.28" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="250.46" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="250.46" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="211.56" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="221.28" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="206.70" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<line x1="128" y1="599" x2="159" y2="599" stroke="#67e5ce" stroke-width="4"/><text x="170" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">India</text>
+<path d="M128.00,206.70 L208.00,196.97 L288.00,192.11 L368.00,187.24 L448.00,187.24 L528.00,187.24 L608.00,187.24 L688.00,187.24 L768.00,192.11 L848.00,192.11 L928.00,192.11 L1008.00,192.11 L1088.00,192.11" stroke="#eec982" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="206.70" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="196.97" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="192.11" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="187.24" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="187.24" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="187.24" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="187.24" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="187.24" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="192.11" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="192.11" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="192.11" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="192.11" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="192.11" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<line x1="368" y1="599" x2="399" y2="599" stroke="#eec982" stroke-width="4"/><text x="410" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">Bangladesh</text>
+<path d="M128.00,488.76 L208.00,474.17 L288.00,454.72 L368.00,459.58 L448.00,406.08 L528.00,396.36 L608.00,367.18 L688.00,342.86 L768.00,362.32 L848.00,367.18 L928.00,376.91 L1008.00,338.00 L1088.00,338.00" stroke="#8fb6ff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="488.76" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="474.17" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="454.72" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="459.58" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="406.08" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="396.36" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="367.18" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="342.86" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="362.32" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="367.18" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="376.91" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="338.00" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="338.00" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<line x1="608" y1="599" x2="639" y2="599" stroke="#8fb6ff" stroke-width="4"/><text x="650" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">Nigeria</text>
+<path d="M128.00,201.83 L208.00,192.11 L288.00,211.56 L368.00,196.97 L448.00,231.01 L528.00,260.19 L608.00,240.74 L688.00,323.41 L768.00,289.37 L848.00,333.14 L928.00,289.37 L1008.00,226.15 L1088.00,221.28" stroke="#ed91c3" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="201.83" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="192.11" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="211.56" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="196.97" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="231.01" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="260.19" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="240.74" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="323.41" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="289.37" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="333.14" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="289.37" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="226.15" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="221.28" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<line x1="848" y1="599" x2="879" y2="599" stroke="#ed91c3" stroke-width="4"/><text x="890" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">Brazil</text>
+<text x="128" y="635" font-size="12" fill="#9ebbc6" font-family="Arial,sans-serif">Source: World Bank WDI · dataset retrieved 2026-10-28 · 52 observed country-years · Educational, non-clinical</text></svg>

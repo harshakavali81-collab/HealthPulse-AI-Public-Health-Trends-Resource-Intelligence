@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 660" width="1200" height="660">
+<title id="title">Under-five mortality · historical change</title><desc id="desc">Historical World Bank WDI country-level data, Under-five mortality per 1,000 live births, 2012 to 2024. Not a clinical assessment. Missing years are not interpolated.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#122a40"/><stop offset="1" stop-color="#081b2b"/></linearGradient></defs><rect width="1200" height="660" rx="25" fill="url(#bg)"/>
+<text x="128" y="63" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="29" font-weight="700" fill="#f4fffd">Under-five mortality · historical change</text><text x="128" y="91" font-family="Arial,sans-serif" font-size="17" fill="#b6d8d7">Under-five mortality per 1,000 live births · reported values only</text>
+<line x1="128" x2="1088" y1="537.0" y2="537.0" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="542" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">0.0</text>
+<line x1="128" x2="1088" y1="437.5" y2="437.5" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="442.5" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">35.0</text>
+<line x1="128" x2="1088" y1="338.0" y2="338.0" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="343" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">70.0</text>
+<line x1="128" x2="1088" y1="238.5" y2="238.5" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="243.49999999999997" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">105.0</text>
+<line x1="128" x2="1088" y1="139.0" y2="139.0" stroke="#436578" stroke-width="1" opacity=".67"/>
+<text text-anchor="end" x="110" y="144" fill="#afc8d4" font-size="15" font-family="Arial,sans-serif">140.0</text>
+<text x="128" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2012</text>
+<text x="288" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2014</text>
+<text x="448" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2016</text>
+<text x="608" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2018</text>
+<text x="768" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2020</text>
+<text x="928" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2022</text>
+<text x="1088" y="571" text-anchor="middle" fill="#c4d4de" font-family="Arial,sans-serif" font-size="16">2024</text>
+<path d="M128.00,389.19 L208.00,397.43 L288.00,405.11 L368.00,412.78 L448.00,419.60 L528.00,426.14 L608.00,432.11 L688.00,437.80 L768.00,443.20 L848.00,448.31 L928.00,453.15 L1008.00,457.41 L1088.00,461.39" stroke="#67e5ce" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="389.19" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="397.43" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="405.11" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="412.78" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="419.60" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="426.14" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="432.11" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="437.80" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="443.20" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="448.31" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="453.15" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="457.41" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="461.39" r="4.2" stroke="#67e5ce" stroke-width="2" fill="#102a3d"/>
+<line x1="128" y1="599" x2="159" y2="599" stroke="#67e5ce" stroke-width="4"/><text x="170" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">India</text>
+<path d="M128.00,191.35 L208.00,196.18 L288.00,199.59 L368.00,202.15 L448.00,203.29 L528.00,203.86 L608.00,203.86 L688.00,203.29 L768.00,203.29 L848.00,202.72 L928.00,203.00 L1008.00,204.99 L1088.00,208.40" stroke="#eec982" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="191.35" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="196.18" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="199.59" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="202.15" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="203.29" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="203.86" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="203.86" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="203.29" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="203.29" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="202.72" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="203.00" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="204.99" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="208.40" r="4.2" stroke="#eec982" stroke-width="2" fill="#102a3d"/>
+<line x1="368" y1="599" x2="399" y2="599" stroke="#eec982" stroke-width="4"/><text x="410" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">Nigeria</text>
+<path d="M128.00,488.11 L208.00,489.53 L288.00,490.67 L368.00,491.52 L448.00,489.25 L528.00,493.23 L608.00,493.79 L688.00,494.36 L768.00,494.65 L848.00,495.21 L928.00,495.50 L1008.00,496.07 L1088.00,496.64" stroke="#8fb6ff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="488.11" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="489.53" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="490.67" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="491.52" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="489.25" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="493.23" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="493.79" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="494.36" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="494.65" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="495.21" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="495.50" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="496.07" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="496.64" r="4.2" stroke="#8fb6ff" stroke-width="2" fill="#102a3d"/>
+<line x1="608" y1="599" x2="639" y2="599" stroke="#8fb6ff" stroke-width="4"/><text x="650" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">Brazil</text>
+<path d="M128.00,517.10 L208.00,517.39 L288.00,517.67 L368.00,517.67 L448.00,517.96 L528.00,518.24 L608.00,518.52 L688.00,518.52 L768.00,518.52 L848.00,518.52 L928.00,518.52 L1008.00,518.52 L1088.00,518.52" stroke="#ed91c3" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128.00" cy="517.10" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="208.00" cy="517.39" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="288.00" cy="517.67" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="368.00" cy="517.67" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="448.00" cy="517.96" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="528.00" cy="518.24" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="608.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="688.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="768.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="848.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="928.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="1008.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<circle cx="1088.00" cy="518.52" r="4.2" stroke="#ed91c3" stroke-width="2" fill="#102a3d"/>
+<line x1="848" y1="599" x2="879" y2="599" stroke="#ed91c3" stroke-width="4"/><text x="890" y="605" font-size="17" fill="#e5f9f5" font-family="Arial,sans-serif">United States</text>
+<text x="128" y="635" font-size="12" fill="#9ebbc6" font-family="Arial,sans-serif">Source: World Bank WDI · dataset retrieved 2026-10-28 · 52 observed country-years · Educational, non-clinical</text></svg>

@@ -51,6 +51,13 @@ The dashboard and data charts below are **synthetic demonstrations**. The seven 
 
 Additional visuals: [database schema](assets/diagrams/04-observation-schema.svg) · [forecast evaluation](assets/diagrams/05-forecast-evaluation.svg) · [API lifecycle](assets/diagrams/06-api-data-lifecycle.svg) · [repository tree](assets/diagrams/07-project-tree.svg). All ten are indexed in [the visual gallery](docs/VISUAL_GALLERY.md).
 
+## Real historical WDI charts (not synthetic)
+
+![Observed life-expectancy country trends](assets/real-data/01-life-expectancy.svg)
+![World Bank WDI country/indicator coverage](assets/real-data/04-country-indicator-coverage.svg)
+
+See the [real-data chart atlas](docs/REAL_WDI_VISUALS.md) for DTP3 immunization, under-five mortality and provenance. Unlike the synthetic overview illustrations, these four figures plot the published historical World Bank observations, without filling missing years.
+
 ## Screenshots and diagrams
 
 ![Data coverage example](assets/coverage-example.png)
